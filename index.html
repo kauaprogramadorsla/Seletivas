@@ -891,5 +891,331 @@ function escapeHTML(value) {
 }
 </script>
 
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+
+import {
+  getDatabase,
+  ref,
+  push,
+  set,
+  onValue
+} from "https://www.gstatic.com/firebasejs/12.9.0/firebase-database.js";
+
+/* ==========================================
+   FIREBASE CONNECTION
+   Separate from your voting system.
+========================================== */
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC8PSXTyOxn_kgyFzpn-Qw3EGUXdS7BGOo",
+  authDomain: "feature-8e659.firebaseapp.com",
+  databaseURL: "https://feature-8e659-default-rtdb.firebaseio.com",
+  projectId: "feature-8e659",
+  storageBucket: "feature-8e659.firebasestorage.app",
+  messagingSenderId: "755676249847",
+  appId: "1:755676249847:web:2a01bda6f99d6e32b7ddf2",
+  measurementId: "G-LN21J71XEV"
+};
+
+const app = initializeApp(firebaseConfig, "CTGradePortal");
+const db = getDatabase(app);
+
+const announcementsRef = ref(db, "gradePortal/announcements");
+const supportRef = ref(db, "gradePortal/support");
+
+let announcements = [];
+let supportData = {};
+let activeCode = null;
+
+const participants = [
+  { code: "2k8s5", name: "soy maserati" },
+  { code: "3d4m9", name: "kauany" },
+  { code: "5x9d8", name: "joaozinho" }
+];
+
+function isHost() {
+  return activeCode === "4k1l3";
+}
+
+function safeText(element, text) {
+  element.textContent = text;
+}
+
+/* ==========================================
+   KEEP YOUR ORIGINAL LOGIN
+   This only detects which account logged in.
+========================================== */
+
+const originalLogin = window.login;
+
+window.login = function() {
+  const code = document.getElementById("accessCode").value.trim().toLowerCase();
+
+  originalLogin();
+
+  const dashboard = document.getElementById("dashboard");
+
+  if (!dashboard.classList.contains("hidden")) {
+    activeCode = code;
+    renderMySupport();
+    renderAllSupport();
+    renderAnnouncements();
+  }
+};
+
+const originalLogout = window.logout;
+
+window.logout = function() {
+  originalLogout();
+  activeCode = null;
+};
+
+/* ==========================================
+   LIVE ANNOUNCEMENTS
+========================================== */
+
+onValue(announcementsRef, snapshot => {
+  announcements = [];
+
+  if (snapshot.exists()) {
+    snapshot.forEach(child => {
+      announcements.push({
+        id: child.key,
+        ...child.val()
+      });
+    });
+  }
+
+  announcements.sort((a, b) =>
+    (b.timestamp || 0) - (a.timestamp || 0)
+  );
+
+  renderAnnouncements();
+}, error => {
+  console.error("Announcements error:", error);
+});
+
+window.renderAnnouncements = function() {
+  const container = document.getElementById("announcementList");
+  const editor = document.getElementById("announcementEditor");
+
+  if (!container || !editor) return;
+
+  container.innerHTML = "";
+
+  editor.classList.toggle("hidden", !isHost());
+
+  if (!announcements.length) {
+    container.textContent = "There are no announcements yet.";
+    return;
+  }
+
+  announcements.forEach(a => {
+    const div = document.createElement("div");
+    div.className = "announcement";
+
+    const title = document.createElement("strong");
+    title.textContent = a.title || "Official Announcement";
+
+    const content = document.createElement("div");
+    content.textContent = a.text || "";
+
+    const small = document.createElement("small");
+    small.textContent = "Production • " + (a.date || "");
+
+    div.append(title, content, small);
+    container.appendChild(div);
+  });
+};
+
+window.publishAnnouncement = async function() {
+  if (!isHost()) {
+    alert("Only the host can publish announcements.");
+    return;
+  }
+
+  const input = document.getElementById("announcementInput");
+  const message = input.value.trim();
+
+  if (!message) {
+    alert("Write an announcement first.");
+    return;
+  }
+
+  try {
+    const newAnnouncement = push(announcementsRef);
+
+    await set(newAnnouncement, {
+      title: "Official Announcement",
+      text: message,
+      date: new Date().toLocaleString(),
+      timestamp: Date.now(),
+      author: "Kauany Host"
+    });
+
+    input.value = "";
+    alert("Announcement published!");
+  } catch (error) {
+    console.error(error);
+    alert("Could not publish the announcement. Check Firebase permissions.");
+  }
+};
+
+/* ==========================================
+   LIVE SUPPORT DATABASE
+========================================== */
+
+onValue(supportRef, snapshot => {
+  supportData = snapshot.exists() ? snapshot.val() : {};
+
+  renderMySupport();
+  renderAllSupport();
+}, error => {
+  console.error("Support error:", error);
+});
+
+function renderMessages(box, messages) {
+  box.innerHTML = "";
+
+  const list = Object.values(messages || {})
+    .sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+
+  if (!list.length) {
+    box.textContent = "No messages yet.";
+    return;
+  }
+
+  list.forEach(message => {
+    const div = document.createElement("div");
+
+    div.className =
+      "chat-message" +
+      (message.senderRole === "host" ? " host" : "");
+
+    const small = document.createElement("small");
+    small.textContent =
+      (message.from || "Unknown") + " • " + (message.date || "");
+
+    const content = document.createElement("div");
+    content.textContent = message.text || "";
+
+    div.append(small, content);
+    box.appendChild(div);
+  });
+
+  box.scrollTop = box.scrollHeight;
+}
+
+window.renderMySupport = function() {
+  if (!activeCode || isHost()) return;
+
+  const box = document.getElementById("myChat");
+  if (!box) return;
+
+  renderMessages(box, supportData[activeCode]);
+};
+
+window.sendSupport = async function() {
+  if (!activeCode || isHost()) return;
+
+  const input = document.getElementById("supportInput");
+  const message = input.value.trim();
+
+  if (!message) {
+    alert("Write a message first.");
+    return;
+  }
+
+  try {
+    const messagesRef = ref(db, "gradePortal/support/" + activeCode);
+    const newMessage = push(messagesRef);
+
+    await set(newMessage, {
+      from: participants.find(p => p.code === activeCode)?.name || "Participant",
+      senderRole: "participant",
+      text: message,
+      date: new Date().toLocaleString(),
+      timestamp: Date.now()
+    });
+
+    input.value = "";
+  } catch (error) {
+    console.error(error);
+    alert("Message could not be sent. Check Firebase permissions.");
+  }
+};
+
+/* ==========================================
+   HOST: ALL SUPPORT CONVERSATIONS
+========================================== */
+
+window.renderAllSupport = function() {
+  if (!isHost()) return;
+
+  const container = document.getElementById("supportConversations");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  participants.forEach(participant => {
+    const section = document.createElement("div");
+    section.className = "stat";
+
+    const title = document.createElement("h3");
+    title.textContent = participant.name;
+
+    const box = document.createElement("div");
+    box.className = "support-box";
+
+    renderMessages(box, supportData[participant.code]);
+
+    const reply = document.createElement("textarea");
+    reply.placeholder = "Reply to " + participant.name + "...";
+
+    const send = document.createElement("button");
+    send.className = "primary";
+    send.textContent = "SEND REPLY";
+
+    send.onclick = async () => {
+      const message = reply.value.trim();
+      if (!message) return;
+
+      try {
+        const messagesRef = ref(
+          db,
+          "gradePortal/support/" + participant.code
+        );
+
+        const newMessage = push(messagesRef);
+
+        await set(newMessage, {
+          from: "Kauany Host",
+          senderRole: "host",
+          text: message,
+          date: new Date().toLocaleString(),
+          timestamp: Date.now()
+        });
+
+        reply.value = "";
+      } catch (error) {
+        console.error(error);
+        alert("Reply could not be sent. Check Firebase permissions.");
+      }
+    };
+
+    section.append(title, box, reply, send);
+    container.appendChild(section);
+  });
+};
+
+/* ==========================================
+   INITIAL DISPLAY
+========================================== */
+
+renderAnnouncements();
+
+</script>
+
 </body>
 </html>
