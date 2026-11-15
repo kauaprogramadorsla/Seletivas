@@ -1,190 +1,948 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Confinamento Rural — Boletim</title>
+<title>Fazenda | Participant Portal</title>
+
 <style>
-:root{
-  --ink:#332318;--muted:#78634d;--paper:#fff8e9;--cream:#f5e8cb;
-  --wood:#684326;--green:#42633d;--green2:#78945a;--gold:#d49a36;
-  --red:#bd3e32;--orange:#d98528;--line:#ddc9a4;
+:root {
+  --green:#29472e;
+  --green2:#496b43;
+  --gold:#d5ad61;
+  --paper:#fff8e9;
+  --wood:#60452e;
+  --text:#342719;
+  --muted:#88765e;
+  --red:#c7443b;
+  --orange:#df922e;
 }
-*{box-sizing:border-box}
-body{
-  margin:0;min-height:100vh;padding:28px 16px;color:var(--ink);
-  font-family:Georgia,"Times New Roman",serif;
+
+* { box-sizing:border-box; }
+
+body {
+  margin:0;
+  min-height:100vh;
+  font-family:Arial,sans-serif;
+  color:var(--text);
   background:
-    linear-gradient(90deg,transparent 49%,#ffffff08 50%,transparent 51%),
-    repeating-linear-gradient(0deg,#49321f 0,#49321f 3px,#533a25 3px,#533a25 7px);
+    repeating-linear-gradient(
+      0deg,#49321f 0,#49321f 4px,
+      #553b25 4px,#553b25 9px
+    );
 }
-.page{max-width:920px;margin:auto}
-header{
-  position:relative;overflow:hidden;text-align:center;padding:30px 20px;
-  color:#fff6df;border:5px double #d7b66d;border-radius:18px 18px 5px 5px;
-  background:linear-gradient(135deg,#29472e,#49683d 55%,#304a2d);
-  box-shadow:0 9px 22px #1c120b66;
+
+button,input,textarea { font:inherit; }
+
+button { cursor:pointer; }
+
+header {
+  background:linear-gradient(135deg,#203c27,#527347);
+  color:white;
+  text-align:center;
+  padding:28px 15px;
+  border-bottom:4px solid var(--gold);
 }
-header:before,header:after{content:"✦  ❧  ✦";position:absolute;top:14px;color:#e5c47b;font-size:19px}
-header:before{left:18px}header:after{right:18px}
-.eyebrow{font:700 11px Arial,sans-serif;letter-spacing:3px;text-transform:uppercase;color:#e9ce8e}
-h1{font-size:clamp(27px,5vw,43px);margin:10px 0 5px;text-shadow:2px 3px #1d3421}
-header p{margin:0;color:#f4e5c4;font:14px Arial,sans-serif}
-.panel{
-  margin-top:18px;padding:23px;border:2px solid #b9955e;border-radius:8px;
-  background:var(--paper);box-shadow:0 7px 18px #1c120b55;
+
+.logo {
+  font-family:Georgia,serif;
+  font-size:34px;
+  font-weight:bold;
+  letter-spacing:3px;
 }
-.panel h2{margin:0 0 16px;color:var(--wood);font-size:23px}
-.intro{color:var(--muted);font:14px/1.5 Arial,sans-serif}
-.entry{display:flex;gap:10px}
-input{
-  min-width:0;flex:1;padding:14px;border:1px solid #bca47d;border-radius:6px;
-  background:#fffdf6;font-size:16px;color:var(--ink)
+
+.subtitle {
+  font-size:11px;
+  letter-spacing:3px;
+  color:#ead5a4;
+  margin-top:7px;
 }
-button{
-  border:0;border-radius:6px;padding:0 22px;background:var(--green);
-  color:white;font:bold 14px Arial,sans-serif;cursor:pointer
+
+.container {
+  width:min(950px,94%);
+  margin:25px auto;
 }
-button:hover{filter:brightness(1.12)}
-#message{min-height:20px;margin:10px 0 0;color:var(--red);font:700 13px Arial,sans-serif}
-#result{display:none}
-.result-head{text-align:center;padding:22px 12px;border-radius:7px;color:#fff6e3;background:linear-gradient(135deg,#29472e,#587544)}
-.result-head .small{font:700 10px Arial,sans-serif;letter-spacing:2px;text-transform:uppercase;color:#e9ce8e}
-.result-head h2{margin:8px 0 15px;color:#fff6e3;font-size:clamp(25px,5vw,34px)}
-.grade{
-  width:112px;height:112px;margin:auto;display:grid;place-items:center;border-radius:50%;
-  border:5px solid #f5dfae;background:var(--red);color:white;
-  font:bold 52px Arial,sans-serif;box-shadow:0 5px 16px #0004
+
+.card {
+  background:var(--paper);
+  border:2px solid #c5a36b;
+  border-radius:12px;
+  padding:23px;
+  box-shadow:0 8px 25px #0005;
 }
-.grade-caption{margin:9px 0 0;font:12px Arial,sans-serif;color:#f4e5c4}
-.section-title{display:flex;align-items:center;gap:10px;margin:24px 0 12px;color:var(--wood);font-size:21px}
-.section-title:after{content:"";height:1px;flex:1;background:var(--line)}
-.comparison{width:100%;border-collapse:collapse;font:14px Arial,sans-serif;background:#fffdf7}
-.comparison th,.comparison td{padding:12px 10px;border:1px solid var(--line);text-align:left}
-.comparison th{background:#eee0c2;color:#59412a}
-.comparison td:last-child{text-align:right;font-weight:bold}
-.delta{margin-top:12px;padding:13px;border-left:5px solid var(--red);background:#f7e5dc;border-radius:4px;font:14px/1.5 Arial,sans-serif}
-.delta strong{color:var(--red)}
-.bar-wrap{margin-top:17px}
-.bar-label{display:flex;justify-content:space-between;gap:12px;margin:0 0 6px;font:12px Arial,sans-serif;color:var(--muted)}
-.track{height:14px;border-radius:20px;background:#e8dcc5;overflow:hidden}
-.fill{height:100%;width:40%;background:var(--red);border-radius:20px}
-.avg-fill{height:100%;width:75%;background:var(--green2);border-radius:20px}
-.judges{text-align:center;margin:20px 0 12px;font:700 14px/1.5 Arial,sans-serif}
-.balls{display:flex;justify-content:center;gap:17px}
-.ball{width:25px;height:25px;border-radius:50%;background:var(--red);border:2px solid #8d2923;box-shadow:inset -3px -3px 4px #7b211e55}
-.ranking-note{font:13px/1.5 Arial,sans-serif;color:var(--muted);margin:-4px 0 12px}
-.rank-table{width:100%;border-collapse:collapse;font:14px Arial,sans-serif}
-.rank-table th,.rank-table td{padding:11px;border-bottom:1px solid var(--line);text-align:left}
-.rank-table th{color:#6b4b2e;background:#f0e4cd}
-.rank-num{font-weight:bold;color:var(--wood);width:55px}
-.rank-score{font-weight:bold;text-align:right!important}
-.status{font:bold 11px Arial,sans-serif;padding:5px 8px;border-radius:20px;background:#f4d8d3;color:#9d3029}
-.scale{display:flex;justify-content:space-between;gap:5px;margin-top:13px;font:10px Arial,sans-serif;color:var(--muted)}
-.scale span{flex:1;text-align:center;padding:6px 2px;border-radius:4px}
-.s-red{background:#f4d8d3}.s-orange{background:#f8e3c5}.s-green{background:#dce9d4}
-footer{text-align:center;color:#f4e5c4;font:11px Arial,sans-serif;padding:20px}
-@media(max-width:560px){
-  body{padding:14px 9px}.panel{padding:17px 13px}.entry{flex-direction:column}
-  button{min-height:46px}.comparison th,.comparison td{padding:9px 7px;font-size:12px}
-  .rank-table th,.rank-table td{padding:9px 7px;font-size:12px}
+
+.hidden { display:none !important; }
+
+h2 {
+  font-family:Georgia,serif;
+  color:var(--wood);
+}
+
+input,textarea {
+  width:100%;
+  padding:14px;
+  border:1px solid #c8b18a;
+  border-radius:8px;
+  background:#fffdf7;
+  outline:none;
+  margin:7px 0;
+}
+
+textarea {
+  resize:vertical;
+  min-height:75px;
+}
+
+.main-btn {
+  background:var(--green);
+  color:white;
+  border:0;
+  padding:13px 20px;
+  border-radius:8px;
+  font-weight:bold;
+}
+
+.main-btn:hover { background:var(--green2); }
+
+.error {
+  color:var(--red);
+  font-size:13px;
+  min-height:18px;
+}
+
+.login {
+  max-width:430px;
+  margin:65px auto;
+  text-align:center;
+}
+
+.login .main-btn { width:100%; margin-top:8px; }
+
+/* DASHBOARD */
+
+.welcome {
+  background:linear-gradient(135deg,#29472e,#587747);
+  color:white;
+  padding:24px;
+  border-radius:12px;
+  text-align:center;
+  border:2px solid var(--gold);
+}
+
+.welcome h2 {
+  color:#fff3d4;
+  font-size:28px;
+  margin:8px 0;
+}
+
+.welcome p { color:#e7d9b9; }
+
+.menu {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
+  margin-top:20px;
+}
+
+.menu-btn {
+  border:2px solid #d1b77f;
+  background:linear-gradient(145deg,#fff9eb,#eddfc0);
+  color:var(--green);
+  padding:24px 12px;
+  border-radius:13px;
+  text-align:center;
+  transition:.2s;
+  min-height:125px;
+}
+
+.menu-btn:hover {
+  transform:translateY(-4px);
+  background:#e8d5ad;
+}
+
+.menu-icon {
+  display:block;
+  font-size:32px;
+  margin-bottom:10px;
+}
+
+.menu-btn strong {
+  font-family:Georgia,serif;
+  font-size:18px;
+}
+
+.menu-btn small {
+  display:block;
+  color:var(--muted);
+  margin-top:6px;
+}
+
+.logout {
+  background:#a33b32;
+  color:white;
+  border:0;
+  border-radius:7px;
+  padding:10px 15px;
+  margin-top:20px;
+}
+
+/* PAGE NAVIGATION */
+
+.back {
+  background:#e9ddc4;
+  color:var(--wood);
+  border:1px solid #c6ae81;
+  padding:10px 15px;
+  border-radius:7px;
+  margin-bottom:18px;
+  font-weight:bold;
+}
+
+.page-title {
+  border-bottom:2px solid #d8c39c;
+  padding-bottom:12px;
+  margin-bottom:20px;
+}
+
+/* GRADES */
+
+.grade-circle {
+  width:115px;
+  height:115px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:var(--red);
+  color:white;
+  font-size:50px;
+  font-weight:bold;
+  border:5px solid #e7c98e;
+  margin:20px auto 8px;
+}
+
+.grade-caption {
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.grade-table,.ranking-table {
+  width:100%;
+  border-collapse:collapse;
+  margin-top:15px;
+}
+
+.grade-table th,.grade-table td,
+.ranking-table th,.ranking-table td {
+  padding:13px 9px;
+  border-bottom:1px solid #dfcfad;
+  text-align:left;
+  font-size:14px;
+}
+
+.grade-table th,.ranking-table th {
+  background:#eee1c5;
+  color:var(--wood);
+}
+
+.grade-table td:last-child,
+.ranking-table td:last-child {
+  text-align:right;
+  font-weight:bold;
+}
+
+.comparison {
+  background:#f3e5d5;
+  border-left:5px solid var(--red);
+  padding:15px;
+  border-radius:6px;
+  margin-top:17px;
+  line-height:1.5;
+}
+
+.bar-area { margin-top:22px; }
+
+.bar-label {
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+  margin-bottom:7px;
+}
+
+.bar {
+  background:#e4d9c5;
+  height:15px;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.fill {
+  height:100%;
+  border-radius:20px;
+}
+
+.your-fill { width:40%; background:var(--red); }
+.average-fill { width:75%; background:var(--green2); }
+
+.judges {
+  text-align:center;
+  font-weight:bold;
+  margin:25px 0 15px;
+  line-height:1.5;
+}
+
+.balls {
+  display:flex;
+  justify-content:center;
+  gap:20px;
+}
+
+.ball {
+  width:27px;
+  height:27px;
+  border-radius:50%;
+  background:var(--red);
+  border:2px solid #922d28;
+}
+
+/* RANKING */
+
+.rank-number {
+  font-weight:bold;
+  color:var(--wood);
+}
+
+.rank-badge {
+  font-size:11px;
+  background:#f1d9d5;
+  color:#a83a31;
+  padding:5px 8px;
+  border-radius:20px;
+}
+
+/* SUPPORT CHAT */
+
+.chat-box {
+  background:#f1e8d5;
+  border:1px solid #d6c29d;
+  border-radius:10px;
+  padding:14px;
+}
+
+.chat-messages {
+  height:310px;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  padding:10px 3px;
+}
+
+.message {
+  max-width:85%;
+  padding:12px;
+  border-radius:10px;
+  font-size:13px;
+  line-height:1.5;
+  overflow-wrap:anywhere;
+}
+
+.production {
+  background:white;
+  align-self:flex-start;
+  border:1px solid #ded1b6;
+}
+
+.participant {
+  background:#426541;
+  color:white;
+  align-self:flex-end;
+}
+
+.message small {
+  display:block;
+  opacity:.7;
+  font-size:10px;
+  margin-top:6px;
+}
+
+.chat-input {
+  display:flex;
+  gap:8px;
+  align-items:stretch;
+}
+
+.chat-input textarea {
+  min-height:48px;
+  height:48px;
+  margin:0;
+}
+
+.chat-input button {
+  padding:0 17px;
+}
+
+.chat-note {
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.5;
+  margin-top:12px;
+}
+
+.support-options {
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin:12px 0;
+}
+
+.support-options button {
+  background:#e8dcc2;
+  color:var(--wood);
+  border:1px solid #c9b48c;
+  border-radius:20px;
+  padding:8px 11px;
+  font-size:11px;
+}
+
+/* ANNOUNCEMENTS */
+
+.notice {
+  background:#fffdf7;
+  border-left:5px solid var(--gold);
+  padding:17px;
+  margin-bottom:13px;
+  border-radius:5px;
+}
+
+.notice h3 {
+  font-family:Georgia,serif;
+  margin:0 0 8px;
+  color:var(--green);
+}
+
+.notice p {
+  font-size:13px;
+  line-height:1.5;
+  margin:0;
+}
+
+.notice small {
+  display:block;
+  color:var(--muted);
+  margin-top:10px;
+}
+
+footer {
+  text-align:center;
+  color:#f3dfb7;
+  font-size:11px;
+  padding:20px;
+}
+
+@media(max-width:500px) {
+  .menu { gap:10px; }
+  .menu-btn { padding:19px 7px; min-height:115px; }
+  .menu-btn strong { font-size:16px; }
+  .card { padding:17px 13px; }
+  .grade-table th,.grade-table td,
+  .ranking-table th,.ranking-table td {
+    font-size:12px;
+    padding:10px 6px;
+  }
 }
 </style>
 </head>
+
 <body>
-<div class="page">
+
 <header>
-  <div class="eyebrow">Confinamento • Resultado oficial</div>
-  <h1>O BOLETIM DA FAZENDA</h1>
-  <p>Seu desempenho, direto do campo</p>
+  <div class="logo">🌾 FAZENDA</div>
+  <div class="subtitle">PARTICIPANT PORTAL</div>
 </header>
 
-<section class="panel" id="login">
-  <h2>🔒 Área dos participantes</h2>
-  <p class="intro">Digite seu código de acesso para consultar o boletim.</p>
-  <form id="codeForm">
-    <div class="entry">
-      <input id="accessCode" type="text" placeholder="Digite seu código" autocomplete="off">
-      <button type="submit">Consultar nota</button>
-    </div>
-  </form>
-  <p id="message" role="status" aria-live="polite"></p>
+<div class="container">
+
+<!-- LOGIN -->
+
+<section id="login" class="card login">
+  <h2>Participant Access</h2>
+  <p>Welcome to the official participant portal.</p>
+
+  <input id="code" type="password"
+         placeholder="Enter your access code">
+
+  <button class="main-btn" onclick="login()">
+    ENTER YOUR ACCOUNT
+  </button>
+
+  <div id="error" class="error"></div>
 </section>
 
-<main class="panel" id="result" aria-live="polite">
-  <div class="result-head">
-    <div class="small">Resultado individual</div>
-    <h2>soy maserati</h2>
-    <div class="grade" id="gradeCircle">4</div>
-    <p class="grade-caption">NOTA FINAL</p>
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="hidden">
+
+  <div class="welcome">
+    <div>🌿 OFFICIAL PARTICIPANT AREA</div>
+    <h2>Welcome, soy maserati!</h2>
+    <p>Your personal Fazenda account</p>
   </div>
 
-  <h3 class="section-title">📋 Comparativo de notas</h3>
-  <p class="intro">Veja como sua nota ficou em relação à média geral.</p>
-  <table class="comparison">
-    <thead><tr><th>Indicador</th><th>Nota</th></tr></thead>
-    <tbody>
-      <tr><td>Sua nota — soy maserati</td><td id="yourGrade">4,0</td></tr>
-      <tr><td>Média geral</td><td id="averageGrade">7,5</td></tr>
-      <tr><td>Diferença para a média</td><td id="difference">−3,5</td></tr>
-    </tbody>
+  <div class="menu">
+
+    <button class="menu-btn" onclick="showPage('grades')">
+      <span class="menu-icon">📋</span>
+      <strong>My Grades</strong>
+      <small>View your evaluations</small>
+    </button>
+
+    <button class="menu-btn" onclick="showPage('ranking')">
+      <span class="menu-icon">🏆</span>
+      <strong>Ranking</strong>
+      <small>See your position</small>
+    </button>
+
+    <button class="menu-btn" onclick="showPage('support')">
+      <span class="menu-icon">💬</span>
+      <strong>Support</strong>
+      <small>Contact production</small>
+    </button>
+
+    <button class="menu-btn" onclick="showPage('announcements')">
+      <span class="menu-icon">📢</span>
+      <strong>Announcements</strong>
+      <small>Official notices</small>
+    </button>
+
+  </div>
+
+  <button class="logout" onclick="logout()">Log out</button>
+
+</section>
+
+<!-- GRADES -->
+
+<section id="grades" class="card hidden">
+
+  <button class="back" onclick="showPage('dashboard')">
+    ← Back to dashboard
+  </button>
+
+  <h2 class="page-title">📋 My Grades</h2>
+
+  <h3 style="text-align:center">soy maserati</h3>
+
+  <div class="grade-circle">4</div>
+  <p class="grade-caption">YOUR FINAL GRADE / 10</p>
+
+  <h3>Grade comparison worksheet</h3>
+
+  <table class="grade-table">
+    <tr>
+      <th>Evaluation</th>
+      <th>Grade</th>
+    </tr>
+    <tr>
+      <td>Your grade</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <td>General average</td>
+      <td>7.5</td>
+    </tr>
+    <tr>
+      <td>Difference</td>
+      <td>-3.5</td>
+    </tr>
   </table>
-  <div class="delta" id="comparisonMessage">
-    Sua nota ficou <strong>3,5 pontos abaixo da média geral.</strong>
+
+  <div class="comparison">
+    Your grade is <strong>3.5 points below</strong>
+    the general average.
   </div>
 
-  <div class="bar-wrap">
-    <div class="bar-label"><span>Sua nota</span><strong>4,0 / 10</strong></div>
-    <div class="track"><div class="fill"></div></div>
-  </div>
-  <div class="bar-wrap">
-    <div class="bar-label"><span>Média geral</span><strong>7,5 / 10</strong></div>
-    <div class="track"><div class="avg-fill"></div></div>
+  <div class="bar-area">
+    <div class="bar-label">
+      <span>Your grade</span>
+      <strong>4 / 10</strong>
+    </div>
+    <div class="bar">
+      <div class="fill your-fill"></div>
+    </div>
   </div>
 
-  <h3 class="section-title">🏅 Ranking de notas</h3>
-  <p class="ranking-note">Comparação ilustrativa entre sua nota e a média geral — a média não representa um participante.</p>
-  <table class="rank-table">
-    <thead><tr><th>Posição</th><th>Referência</th><th class="rank-score">Nota</th></tr></thead>
-    <tbody>
-      <tr><td class="rank-num">—</td><td>Média geral</td><td class="rank-score">7,5</td></tr>
-      <tr><td class="rank-num">—</td><td>soy maserati <span class="status">Abaixo da média</span></td><td class="rank-score">4,0</td></tr>
-    </tbody>
+  <div class="bar-area">
+    <div class="bar-label">
+      <span>General average</span>
+      <strong>7.5 / 10</strong>
+    </div>
+    <div class="bar">
+      <div class="fill average-fill"></div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:30px">Judge evaluation</h3>
+
+  <p class="judges">
+    You didn't get a good grade from any of the judges.
+  </p>
+
+  <div class="balls">
+    <span class="ball"></span>
+    <span class="ball"></span>
+    <span class="ball"></span>
+  </div>
+
+  <h3 style="margin-top:30px">Grade scale</h3>
+  <p style="font-size:13px;line-height:1.8">
+    🔴 0–5: Poor<br>
+    🟠 6–7: Average<br>
+    🟢 8–9: Good<br>
+    🟡 10: Excellent
+  </p>
+
+</section>
+
+<!-- RANKING -->
+
+<section id="ranking" class="card hidden">
+
+  <button class="back" onclick="showPage('dashboard')">
+    ← Back to dashboard
+  </button>
+
+  <h2 class="page-title">🏆 Official Ranking</h2>
+
+  <p style="font-size:13px;color:#88765e">
+    Participant performance leaderboard.
+  </p>
+
+  <table class="ranking-table">
+
+    <thead>
+      <tr>
+        <th>Position</th>
+        <th>Participant</th>
+        <th>Grade</th>
+      </tr>
+    </thead>
+
+    <tbody id="rankingBody"></tbody>
+
   </table>
 
-  <div class="scale" aria-label="Faixas de nota">
-    <span class="s-red">0–5<br>Vermelho</span>
-    <span class="s-orange">6–7<br>Laranja</span>
-    <span class="s-green">8–10<br>Verde</span>
+  <p style="font-size:11px;color:#88765e;margin-top:15px">
+    The other participant names and grades below are
+    demonstration data. Replace them with official results.
+  </p>
+
+</section>
+
+<!-- SUPPORT -->
+
+<section id="support" class="card hidden">
+
+  <button class="back" onclick="showPage('dashboard')">
+    ← Back to dashboard
+  </button>
+
+  <h2 class="page-title">💬 Production Support</h2>
+
+  <p style="font-size:13px;line-height:1.5">
+    Welcome to the Production Support Center.
+    Do you believe your grade was unfair?
+    Send us a message.
+  </p>
+
+  <div class="support-options">
+    <button onclick="quickMessage('I believe my grade was unfair.')">
+      Unfair grade
+    </button>
+    <button onclick="quickMessage('I would like to understand my evaluation.')">
+      Understand my grade
+    </button>
+    <button onclick="quickMessage('I want to request a grade review.')">
+      Request a review
+    </button>
   </div>
 
-  <h3 class="section-title">⚖️ Avaliação dos jurados</h3>
-  <p class="judges">you didn't get a good grade from any of the judges</p>
-  <div class="balls" aria-label="Three red judge indicators">
-    <span class="ball"></span><span class="ball"></span><span class="ball"></span>
+  <div class="chat-box">
+
+    <div class="chat-messages" id="chatMessages">
+
+      <div class="message production">
+        Hello, soy maserati! 👋<br><br>
+        Welcome to the Production Support Center.
+        How can we help you today?
+        <small>Production Support</small>
+      </div>
+
+    </div>
+
+    <div class="chat-input">
+      <textarea id="chatInput"
+        placeholder="Write your message..."></textarea>
+
+      <button class="main-btn" onclick="sendMessage()">
+        Send
+      </button>
+    </div>
+
   </div>
-</main>
-<footer>✦ Um resultado da fazenda ✦</footer>
+
+  <p class="chat-note">
+    Your messages are saved in this browser on this device.
+    This is a front-end chat demonstration: production will
+    not receive or reply to messages until a server or
+    database is connected.
+  </p>
+
+</section>
+
+<!-- ANNOUNCEMENTS -->
+
+<section id="announcements" class="card hidden">
+
+  <button class="back" onclick="showPage('dashboard')">
+    ← Back to dashboard
+  </button>
+
+  <h2 class="page-title">📢 Official Announcements</h2>
+
+  <div class="notice">
+    <h3>🌾 Welcome to the portal!</h3>
+    <p>
+      Welcome to your official participant area.
+      Here you can check grades, rankings and contact production.
+    </p>
+    <small>PRODUCTION • Official notice</small>
+  </div>
+
+  <div class="notice">
+    <h3>📋 Evaluation results</h3>
+    <p>
+      Your latest evaluation is available in the My Grades section.
+      Check your results and compare them with the general average.
+    </p>
+    <small>PRODUCTION • Evaluation</small>
+  </div>
+
+  <div class="notice">
+    <h3>💬 Grade appeals</h3>
+    <p>
+      Participants who disagree with their evaluations can
+      contact production through the Support section.
+    </p>
+    <small>PRODUCTION • Important</small>
+  </div>
+
+</section>
+
 </div>
 
+<footer>
+  🌾 FAZENDA • OFFICIAL PARTICIPANT PORTAL 🌾
+</footer>
+
 <script>
-const CORRECT_CODE = "2k8s5";
-const form = document.getElementById("codeForm");
-const input = document.getElementById("accessCode");
-const message = document.getElementById("message");
-const result = document.getElementById("result");
 
-form.addEventListener("submit", function(event) {
-  event.preventDefault();
+// ACCOUNT SETTINGS
 
-  if (input.value.trim() === CORRECT_CODE) {
-    message.textContent = "";
-    result.style.display = "block";
+const ACCESS_CODE = "2k8s5";
+
+// DEMONSTRATION RANKING DATA
+
+const participants = [
+  {name:"Participant A", grade:9.5},
+  {name:"Participant B", grade:8.5},
+  {name:"Participant C", grade:8.0},
+  {name:"Participant D", grade:7.5},
+  {name:"soy maserati", grade:4.0}
+];
+
+// LOGIN
+
+function login() {
+
+  const entered = document.getElementById("code").value.trim();
+
+  if (entered === ACCESS_CODE) {
+
+    document.getElementById("login").classList.add("hidden");
+    document.getElementById("dashboard").classList.remove("hidden");
+
+    showPage("dashboard");
+
   } else {
-    result.style.display = "none";
-    message.textContent = "your code is incorrect";
+
+    document.getElementById("error").textContent =
+      "Your code is incorrect. Please try again.";
+
   }
-});
+
+}
+
+// LOGOUT
+
+function logout() {
+
+  document.getElementById("dashboard").classList.add("hidden");
+
+  document.querySelectorAll("#grades,#ranking,#support,#announcements")
+    .forEach(page => page.classList.add("hidden"));
+
+  document.getElementById("login").classList.remove("hidden");
+  document.getElementById("code").value = "";
+  document.getElementById("error").textContent = "";
+
+}
+
+// NAVIGATION
+
+function showPage(page) {
+
+  const pages = [
+    "dashboard",
+    "grades",
+    "ranking",
+    "support",
+    "announcements"
+  ];
+
+  pages.forEach(id => {
+    document.getElementById(id).classList.add("hidden");
+  });
+
+  document.getElementById(page).classList.remove("hidden");
+
+  if (page === "ranking") {
+    renderRanking();
+  }
+
+  window.scrollTo({top:0,behavior:"smooth"});
+
+}
+
+// RANKING
+
+function renderRanking() {
+
+  const sorted = [...participants].sort((a,b) => b.grade-a.grade);
+
+  document.getElementById("rankingBody").innerHTML =
+    sorted.map((person,index) => {
+
+      const isMe = person.name === "soy maserati";
+
+      return `
+        <tr>
+          <td class="rank-number">
+            ${index===0?"🥇":index===1?"🥈":index===2?"🥉":index+1}
+          </td>
+          <td>
+            ${person.name}
+            ${isMe ? '<span class="rank-badge">YOU</span>' : ''}
+          </td>
+          <td>${person.grade.toFixed(1)}</td>
+        </tr>
+      `;
+
+    }).join("");
+
+}
+
+// SUPPORT CHAT
+
+function addMessage(text,type) {
+
+  const box = document.getElementById("chatMessages");
+
+  const message = document.createElement("div");
+  message.className = "message " + type;
+
+  const content = document.createElement("span");
+  content.textContent = text;
+
+  const time = document.createElement("small");
+  time.textContent =
+    new Date().toLocaleTimeString([],{
+      hour:"2-digit",
+      minute:"2-digit"
+    });
+
+  message.appendChild(content);
+  message.appendChild(time);
+
+  box.appendChild(message);
+  box.scrollTop = box.scrollHeight;
+
+}
+
+function sendMessage() {
+
+  const input = document.getElementById("chatInput");
+  const text = input.value.trim();
+
+  if (!text) return;
+
+  addMessage(text,"participant");
+
+  // Save the conversation locally.
+
+  const history = JSON.parse(
+    localStorage.getItem("fazendaChat") || "[]"
+  );
+
+  history.push({
+    text:text,
+    time:new Date().toISOString()
+  });
+
+  localStorage.setItem("fazendaChat",JSON.stringify(history));
+
+  input.value = "";
+
+}
+
+function quickMessage(text) {
+
+  document.getElementById("chatInput").value = text;
+  document.getElementById("chatInput").focus();
+
+}
+
+// RESTORE CHAT
+
+function restoreChat() {
+
+  const history = JSON.parse(
+    localStorage.getItem("fazendaChat") || "[]"
+  );
+
+  history.forEach(item => {
+    addMessage(item.text,"participant");
+  });
+
+}
+
+document.getElementById("chatInput").addEventListener(
+  "keydown",function(event) {
+
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      sendMessage();
+    }
+
+  }
+);
+
+// INITIALIZE
+
+restoreChat();
+
 </script>
+
 </body>
 </html>
