@@ -4,19 +4,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fazenda | Participant Portal</title>
+<title>Confinamento Total | Grade Portal</title>
 
 <style>
 :root {
-  --green:#29472e;
-  --green2:#496b43;
-  --gold:#d5ad61;
-  --paper:#fff8e9;
-  --wood:#60452e;
-  --text:#342719;
-  --muted:#88765e;
-  --red:#c7443b;
-  --orange:#df922e;
+  --green:#263d2b;
+  --green2:#3f6040;
+  --gold:#d6a84b;
+  --cream:#f4edda;
+  --paper:#fffaf0;
+  --brown:#63452d;
+  --red:#b63b32;
 }
 
 * { box-sizing:border-box; }
@@ -24,39 +22,42 @@
 body {
   margin:0;
   min-height:100vh;
-  font-family:Arial,sans-serif;
-  color:var(--text);
+  font-family:Georgia,serif;
+  color:var(--brown);
   background:
-    repeating-linear-gradient(
-      0deg,#49321f 0,#49321f 4px,
-      #553b25 4px,#553b25 9px
-    );
+    linear-gradient(#17291edb,#17291edb),
+    repeating-linear-gradient(45deg,#354b36 0px,#354b36 3px,#263d2b 3px,#263d2b 7px);
 }
 
 button,input,textarea { font:inherit; }
 
-button { cursor:pointer; }
+button {
+  cursor:pointer;
+  border:0;
+}
+
+.hidden { display:none !important; }
 
 header {
-  background:linear-gradient(135deg,#203c27,#527347);
-  color:white;
+  background:linear-gradient(135deg,#203525,#405b39);
+  color:#fff5d9;
   text-align:center;
-  padding:28px 15px;
-  border-bottom:4px solid var(--gold);
+  padding:25px 15px;
+  border-bottom:5px solid var(--gold);
+  box-shadow:0 4px 15px #0005;
 }
 
-.logo {
-  font-family:Georgia,serif;
-  font-size:34px;
-  font-weight:bold;
-  letter-spacing:3px;
+header h1 {
+  margin:0;
+  font-size:clamp(25px,5vw,38px);
+  letter-spacing:2px;
 }
 
-.subtitle {
-  font-size:11px;
-  letter-spacing:3px;
-  color:#ead5a4;
-  margin-top:7px;
+header p {
+  margin:8px 0 0;
+  color:#e6c77c;
+  letter-spacing:2px;
+  font-size:12px;
 }
 
 .container {
@@ -64,393 +65,222 @@ header {
   margin:25px auto;
 }
 
-.card {
+.panel {
   background:var(--paper);
-  border:2px solid #c5a36b;
-  border-radius:12px;
-  padding:23px;
-  box-shadow:0 8px 25px #0005;
+  border:2px solid var(--gold);
+  border-radius:13px;
+  padding:22px;
+  box-shadow:0 8px 25px #0004;
+  margin-bottom:18px;
 }
 
-.hidden { display:none !important; }
+h2,h3 { color:var(--green); }
 
 h2 {
-  font-family:Georgia,serif;
-  color:var(--wood);
+  border-bottom:2px solid #d8c69b;
+  padding-bottom:10px;
+}
+
+.login {
+  max-width:420px;
+  margin:55px auto;
+  text-align:center;
 }
 
 input,textarea {
   width:100%;
-  padding:14px;
-  border:1px solid #c8b18a;
+  padding:13px;
+  border:1px solid #c5b58f;
   border-radius:8px;
   background:#fffdf7;
-  outline:none;
-  margin:7px 0;
+  margin:8px 0;
+  color:#392d20;
 }
 
 textarea {
+  min-height:110px;
   resize:vertical;
-  min-height:75px;
 }
 
-.main-btn {
+.primary {
   background:var(--green);
   color:white;
-  border:0;
-  padding:13px 20px;
+  padding:13px 18px;
   border-radius:8px;
   font-weight:bold;
 }
 
-.main-btn:hover { background:var(--green2); }
+.primary:hover { background:var(--green2); }
 
-.error {
-  color:var(--red);
-  font-size:13px;
-  min-height:18px;
+.gold {
+  background:var(--gold);
+  color:#382816;
 }
 
-.login {
-  max-width:430px;
-  margin:65px auto;
-  text-align:center;
-}
-
-.login .main-btn { width:100%; margin-top:8px; }
-
-/* DASHBOARD */
-
-.welcome {
-  background:linear-gradient(135deg,#29472e,#587747);
+.danger {
+  background:#9e3830;
   color:white;
-  padding:24px;
-  border-radius:12px;
-  text-align:center;
-  border:2px solid var(--gold);
 }
-
-.welcome h2 {
-  color:#fff3d4;
-  font-size:28px;
-  margin:8px 0;
-}
-
-.welcome p { color:#e7d9b9; }
 
 .menu {
   display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:15px;
-  margin-top:20px;
-}
-
-.menu-btn {
-  border:2px solid #d1b77f;
-  background:linear-gradient(145deg,#fff9eb,#eddfc0);
-  color:var(--green);
-  padding:24px 12px;
-  border-radius:13px;
-  text-align:center;
-  transition:.2s;
-  min-height:125px;
-}
-
-.menu-btn:hover {
-  transform:translateY(-4px);
-  background:#e8d5ad;
-}
-
-.menu-icon {
-  display:block;
-  font-size:32px;
-  margin-bottom:10px;
-}
-
-.menu-btn strong {
-  font-family:Georgia,serif;
-  font-size:18px;
-}
-
-.menu-btn small {
-  display:block;
-  color:var(--muted);
-  margin-top:6px;
-}
-
-.logout {
-  background:#a33b32;
-  color:white;
-  border:0;
-  border-radius:7px;
-  padding:10px 15px;
-  margin-top:20px;
-}
-
-/* PAGE NAVIGATION */
-
-.back {
-  background:#e9ddc4;
-  color:var(--wood);
-  border:1px solid #c6ae81;
-  padding:10px 15px;
-  border-radius:7px;
-  margin-bottom:18px;
-  font-weight:bold;
-}
-
-.page-title {
-  border-bottom:2px solid #d8c39c;
-  padding-bottom:12px;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
   margin-bottom:20px;
 }
 
-/* GRADES */
-
-.grade-circle {
-  width:115px;
-  height:115px;
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  background:var(--red);
-  color:white;
-  font-size:50px;
+.menu button {
+  padding:20px 10px;
+  border-radius:10px;
+  color:#fff5dc;
+  background:linear-gradient(145deg,#405b39,#263d2b);
+  border:1px solid var(--gold);
+  font-size:16px;
   font-weight:bold;
-  border:5px solid #e7c98e;
-  margin:20px auto 8px;
+  box-shadow:0 4px 8px #0002;
 }
 
-.grade-caption {
+.menu button:hover {
+  background:linear-gradient(145deg,#617a4e,#354e35);
+  transform:translateY(-1px);
+}
+
+.back {
+  margin-bottom:15px;
+}
+
+.stat {
+  background:#eee5ce;
+  border-left:5px solid var(--gold);
+  padding:13px;
+  border-radius:7px;
+  margin:10px 0;
+}
+
+.big-grade {
+  font-size:48px;
+  font-weight:bold;
+  color:var(--green);
   text-align:center;
-  color:var(--muted);
-  font-size:12px;
+  margin:15px;
 }
 
-.grade-table,.ranking-table {
-  width:100%;
-  border-collapse:collapse;
-  margin-top:15px;
-}
-
-.grade-table th,.grade-table td,
-.ranking-table th,.ranking-table td {
-  padding:13px 9px;
-  border-bottom:1px solid #dfcfad;
-  text-align:left;
-  font-size:14px;
-}
-
-.grade-table th,.ranking-table th {
-  background:#eee1c5;
-  color:var(--wood);
-}
-
-.grade-table td:last-child,
-.ranking-table td:last-child {
-  text-align:right;
-  font-weight:bold;
-}
-
-.comparison {
-  background:#f3e5d5;
-  border-left:5px solid var(--red);
-  padding:15px;
-  border-radius:6px;
-  margin-top:17px;
-  line-height:1.5;
-}
-
-.bar-area { margin-top:22px; }
-
-.bar-label {
+.judges {
   display:flex;
-  justify-content:space-between;
-  font-size:13px;
-  margin-bottom:7px;
+  justify-content:center;
+  gap:15px;
+  margin:20px 0;
 }
 
-.bar {
-  background:#e4d9c5;
+.ball {
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  border:3px solid #fff;
+  box-shadow:0 2px 6px #0005;
+}
+
+.good { background:#35a75c; }
+.bad { background:#c43c34; }
+
+.bar-bg {
+  background:#ded5c2;
   height:15px;
   border-radius:20px;
   overflow:hidden;
+  margin:8px 0 15px;
 }
 
-.fill {
+.bar {
+  background:linear-gradient(90deg,#b38a3e,#e2bd63);
   height:100%;
   border-radius:20px;
 }
 
-.your-fill { width:40%; background:var(--red); }
-.average-fill { width:75%; background:var(--green2); }
-
-.judges {
-  text-align:center;
-  font-weight:bold;
-  margin:25px 0 15px;
-  line-height:1.5;
-}
-
-.balls {
-  display:flex;
-  justify-content:center;
-  gap:20px;
-}
-
-.ball {
-  width:27px;
-  height:27px;
-  border-radius:50%;
-  background:var(--red);
-  border:2px solid #922d28;
-}
-
-/* RANKING */
-
-.rank-number {
-  font-weight:bold;
-  color:var(--wood);
-}
-
-.rank-badge {
-  font-size:11px;
-  background:#f1d9d5;
-  color:#a83a31;
-  padding:5px 8px;
-  border-radius:20px;
-}
-
-/* SUPPORT CHAT */
-
-.chat-box {
-  background:#f1e8d5;
-  border:1px solid #d6c29d;
-  border-radius:10px;
-  padding:14px;
-}
-
-.chat-messages {
-  height:310px;
-  overflow-y:auto;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  padding:10px 3px;
-}
-
-.message {
-  max-width:85%;
-  padding:12px;
-  border-radius:10px;
-  font-size:13px;
-  line-height:1.5;
-  overflow-wrap:anywhere;
-}
-
-.production {
-  background:white;
-  align-self:flex-start;
-  border:1px solid #ded1b6;
-}
-
-.participant {
-  background:#426541;
-  color:white;
-  align-self:flex-end;
-}
-
-.message small {
-  display:block;
-  opacity:.7;
-  font-size:10px;
-  margin-top:6px;
-}
-
-.chat-input {
-  display:flex;
-  gap:8px;
-  align-items:stretch;
-}
-
-.chat-input textarea {
-  min-height:48px;
-  height:48px;
-  margin:0;
-}
-
-.chat-input button {
-  padding:0 17px;
-}
-
-.chat-note {
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.5;
+table {
+  width:100%;
+  border-collapse:collapse;
   margin-top:12px;
+  font-size:14px;
 }
 
-.support-options {
-  display:flex;
-  flex-wrap:wrap;
-  gap:7px;
+th,td {
+  padding:11px 8px;
+  border-bottom:1px solid #d9ccb0;
+  text-align:left;
+}
+
+th {
+  background:#304833;
+  color:white;
+}
+
+tr:nth-child(even) { background:#f0e9d8; }
+
+.table-wrap { overflow-x:auto; }
+
+.announcement {
+  background:#f0e7d2;
+  border-left:5px solid var(--gold);
+  padding:15px;
+  margin:12px 0;
+  border-radius:7px;
+  white-space:pre-wrap;
+}
+
+.announcement small {
+  display:block;
+  margin-top:9px;
+  color:#806b4d;
+}
+
+.chat-message {
+  padding:12px;
+  border-radius:8px;
+  background:#eee6d5;
+  margin:10px 0;
+  white-space:pre-wrap;
+}
+
+.chat-message.host {
+  background:#dce8d8;
+  border-left:4px solid var(--green2);
+}
+
+.chat-message small {
+  display:block;
+  color:#806b4d;
+  margin-bottom:5px;
+}
+
+.support-box {
+  max-height:350px;
+  overflow-y:auto;
+  border:1px solid #d9ccb0;
+  border-radius:8px;
+  padding:10px;
   margin:12px 0;
 }
 
-.support-options button {
-  background:#e8dcc2;
-  color:var(--wood);
-  border:1px solid #c9b48c;
-  border-radius:20px;
-  padding:8px 11px;
-  font-size:11px;
-}
-
-/* ANNOUNCEMENTS */
-
 .notice {
-  background:#fffdf7;
-  border-left:5px solid var(--gold);
-  padding:17px;
-  margin-bottom:13px;
-  border-radius:5px;
-}
-
-.notice h3 {
-  font-family:Georgia,serif;
-  margin:0 0 8px;
-  color:var(--green);
-}
-
-.notice p {
+  color:#8c3d30;
   font-size:13px;
   line-height:1.5;
-  margin:0;
-}
-
-.notice small {
-  display:block;
-  color:var(--muted);
-  margin-top:10px;
 }
 
 footer {
+  color:#e8d6a8;
   text-align:center;
-  color:#f3dfb7;
-  font-size:11px;
-  padding:20px;
+  padding:25px 10px;
+  font-size:12px;
 }
 
 @media(max-width:500px) {
-  .menu { gap:10px; }
-  .menu-btn { padding:19px 7px; min-height:115px; }
-  .menu-btn strong { font-size:16px; }
-  .card { padding:17px 13px; }
-  .grade-table th,.grade-table td,
-  .ranking-table th,.ranking-table td {
-    font-size:12px;
-    padding:10px 6px;
-  }
+  .panel { padding:16px; }
+  .menu { grid-template-columns:1fr 1fr; }
+  .menu button { font-size:14px; padding:17px 7px; }
+  table { font-size:12px; }
+  th,td { padding:9px 6px; }
 }
 </style>
 </head>
@@ -458,490 +288,607 @@ footer {
 <body>
 
 <header>
-  <div class="logo">🌾 FAZENDA</div>
-  <div class="subtitle">PARTICIPANT PORTAL</div>
+  <h1>🌾 CONFINAMENTO TOTAL</h1>
+  <p>OFFICIAL PARTICIPANT PORTAL</p>
 </header>
 
 <div class="container">
 
-<!-- LOGIN -->
+  <!-- LOGIN -->
+  <section id="loginScreen" class="panel login">
+    <h2>Welcome to the Farm</h2>
+    <p>Enter your personal access code to open your account.</p>
+    <input id="accessCode" type="password" placeholder="Your access code">
+    <button class="primary" style="width:100%" onclick="login()">ENTER THE PORTAL</button>
+    <p id="loginError" class="notice"></p>
+  </section>
 
-<section id="login" class="card login">
-  <h2>Participant Access</h2>
-  <p>Welcome to the official participant portal.</p>
-
-  <input id="code" type="password"
-         placeholder="Enter your access code">
-
-  <button class="main-btn" onclick="login()">
-    ENTER YOUR ACCOUNT
-  </button>
-
-  <div id="error" class="error"></div>
-</section>
-
-<!-- DASHBOARD -->
-
-<section id="dashboard" class="hidden">
-
-  <div class="welcome">
-    <div>🌿 OFFICIAL PARTICIPANT AREA</div>
-    <h2>Welcome, soy maserati!</h2>
-    <p>Your personal Fazenda account</p>
-  </div>
-
-  <div class="menu">
-
-    <button class="menu-btn" onclick="showPage('grades')">
-      <span class="menu-icon">📋</span>
-      <strong>My Grades</strong>
-      <small>View your evaluations</small>
-    </button>
-
-    <button class="menu-btn" onclick="showPage('ranking')">
-      <span class="menu-icon">🏆</span>
-      <strong>Ranking</strong>
-      <small>See your position</small>
-    </button>
-
-    <button class="menu-btn" onclick="showPage('support')">
-      <span class="menu-icon">💬</span>
-      <strong>Support</strong>
-      <small>Contact production</small>
-    </button>
-
-    <button class="menu-btn" onclick="showPage('announcements')">
-      <span class="menu-icon">📢</span>
-      <strong>Announcements</strong>
-      <small>Official notices</small>
-    </button>
-
-  </div>
-
-  <button class="logout" onclick="logout()">Log out</button>
-
-</section>
-
-<!-- GRADES -->
-
-<section id="grades" class="card hidden">
-
-  <button class="back" onclick="showPage('dashboard')">
-    ← Back to dashboard
-  </button>
-
-  <h2 class="page-title">📋 My Grades</h2>
-
-  <h3 style="text-align:center">soy maserati</h3>
-
-  <div class="grade-circle">4</div>
-  <p class="grade-caption">YOUR FINAL GRADE / 10</p>
-
-  <h3>Grade comparison worksheet</h3>
-
-  <table class="grade-table">
-    <tr>
-      <th>Evaluation</th>
-      <th>Grade</th>
-    </tr>
-    <tr>
-      <td>Your grade</td>
-      <td>4.0</td>
-    </tr>
-    <tr>
-      <td>General average</td>
-      <td>7.5</td>
-    </tr>
-    <tr>
-      <td>Difference</td>
-      <td>-3.5</td>
-    </tr>
-  </table>
-
-  <div class="comparison">
-    Your grade is <strong>3.5 points below</strong>
-    the general average.
-  </div>
-
-  <div class="bar-area">
-    <div class="bar-label">
-      <span>Your grade</span>
-      <strong>4 / 10</strong>
+  <!-- DASHBOARD -->
+  <section id="dashboard" class="hidden">
+    <div class="panel">
+      <h2 id="welcomeTitle">Welcome!</h2>
+      <p id="accountDescription">Your participant account.</p>
+      <button class="primary danger" onclick="logout()">LOG OUT</button>
     </div>
-    <div class="bar">
-      <div class="fill your-fill"></div>
+
+    <div class="menu">
+      <button onclick="showPage('gradesPage')">📋<br>My Grades</button>
+      <button onclick="showPage('rankingPage')">🏆<br>Ranking</button>
+      <button onclick="showPage('supportPage')">💬<br>Support</button>
+      <button onclick="showPage('announcementsPage')">📢<br>Announcements</button>
     </div>
-  </div>
 
-  <div class="bar-area">
-    <div class="bar-label">
-      <span>General average</span>
-      <strong>7.5 / 10</strong>
-    </div>
-    <div class="bar">
-      <div class="fill average-fill"></div>
-    </div>
-  </div>
-
-  <h3 style="margin-top:30px">Judge evaluation</h3>
-
-  <p class="judges">
-    You didn't get a good grade from any of the judges.
-  </p>
-
-  <div class="balls">
-    <span class="ball"></span>
-    <span class="ball"></span>
-    <span class="ball"></span>
-  </div>
-
-  <h3 style="margin-top:30px">Grade scale</h3>
-  <p style="font-size:13px;line-height:1.8">
-    🔴 0–5: Poor<br>
-    🟠 6–7: Average<br>
-    🟢 8–9: Good<br>
-    🟡 10: Excellent
-  </p>
-
-</section>
-
-<!-- RANKING -->
-
-<section id="ranking" class="card hidden">
-
-  <button class="back" onclick="showPage('dashboard')">
-    ← Back to dashboard
-  </button>
-
-  <h2 class="page-title">🏆 Official Ranking</h2>
-
-  <p style="font-size:13px;color:#88765e">
-    Participant performance leaderboard.
-  </p>
-
-  <table class="ranking-table">
-
-    <thead>
-      <tr>
-        <th>Position</th>
-        <th>Participant</th>
-        <th>Grade</th>
-      </tr>
-    </thead>
-
-    <tbody id="rankingBody"></tbody>
-
-  </table>
-
-  <p style="font-size:11px;color:#88765e;margin-top:15px">
-    The other participant names and grades below are
-    demonstration data. Replace them with official results.
-  </p>
-
-</section>
-
-<!-- SUPPORT -->
-
-<section id="support" class="card hidden">
-
-  <button class="back" onclick="showPage('dashboard')">
-    ← Back to dashboard
-  </button>
-
-  <h2 class="page-title">💬 Production Support</h2>
-
-  <p style="font-size:13px;line-height:1.5">
-    Welcome to the Production Support Center.
-    Do you believe your grade was unfair?
-    Send us a message.
-  </p>
-
-  <div class="support-options">
-    <button onclick="quickMessage('I believe my grade was unfair.')">
-      Unfair grade
-    </button>
-    <button onclick="quickMessage('I would like to understand my evaluation.')">
-      Understand my grade
-    </button>
-    <button onclick="quickMessage('I want to request a grade review.')">
-      Request a review
-    </button>
-  </div>
-
-  <div class="chat-box">
-
-    <div class="chat-messages" id="chatMessages">
-
-      <div class="message production">
-        Hello, soy maserati! 👋<br><br>
-        Welcome to the Production Support Center.
-        How can we help you today?
-        <small>Production Support</small>
+    <div id="hostMenu" class="panel hidden">
+      <h2>🌟 Host Control Center</h2>
+      <p>Special permissions for the host account.</p>
+      <div class="menu">
+        <button onclick="showPage('allGradesPage')">📊<br>All Grades Worksheet</button>
+        <button onclick="showPage('allSupportPage')">💬<br>All Support Chats</button>
+        <button onclick="showPage('announcementsPage')">📢<br>Publish Announcement</button>
       </div>
+    </div>
+  </section>
 
+  <!-- MY GRADES -->
+  <section id="gradesPage" class="panel hidden">
+    <button class="primary back" onclick="goHome()">← Back</button>
+    <h2>📋 My Grades</h2>
+    <p>Your official evaluation results.</p>
+
+    <div class="stat">
+      <strong>Participant:</strong> <span id="gradeName"></span>
     </div>
 
-    <div class="chat-input">
-      <textarea id="chatInput"
-        placeholder="Write your message..."></textarea>
+    <div class="big-grade" id="myGrade">0.0</div>
+    <p style="text-align:center">YOUR FINAL GRADE</p>
 
-      <button class="main-btn" onclick="sendMessage()">
-        Send
-      </button>
+    <div class="stat">
+      <strong>Judges who gave you a good grade:</strong>
+      <span id="judgeCount"></span>
     </div>
 
-  </div>
+    <div class="judges" id="judgeBalls"></div>
 
-  <p class="chat-note">
-    Your messages are saved in this browser on this device.
-    This is a front-end chat demonstration: production will
-    not receive or reply to messages until a server or
-    database is connected.
-  </p>
+    <h3>Grade comparison</h3>
+    <p>Your grade</p>
+    <div class="bar-bg"><div class="bar" id="myBar"></div></div>
 
-</section>
+    <p>Class average: <strong id="averageText"></strong></p>
+    <div class="bar-bg"><div class="bar" id="averageBar"></div></div>
 
-<!-- ANNOUNCEMENTS -->
+    <div class="stat">
+      <strong>Evaluation scale:</strong>
+      <p>0 – 10 points</p>
+    </div>
+  </section>
 
-<section id="announcements" class="card hidden">
+  <!-- RANKING -->
+  <section id="rankingPage" class="panel hidden">
+    <button class="primary back" onclick="goHome()">← Back</button>
+    <h2>🏆 Official Ranking</h2>
+    <p>Participants ordered by their final grades.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Position</th><th>Participant</th><th>Grade</th></tr>
+        </thead>
+        <tbody id="rankingTable"></tbody>
+      </table>
+    </div>
+  </section>
 
-  <button class="back" onclick="showPage('dashboard')">
-    ← Back to dashboard
-  </button>
+  <!-- SUPPORT -->
+  <section id="supportPage" class="panel hidden">
+    <button class="primary back" onclick="goHome()">← Back</button>
+    <h2>💬 Support Center</h2>
+    <p>Do you believe your grade was unfair? Send a message to the host.</p>
+    <div id="myChat" class="support-box"></div>
+    <textarea id="supportInput" placeholder="Explain your situation..."></textarea>
+    <button class="primary" onclick="sendSupport()">SEND MESSAGE</button>
+  </section>
 
-  <h2 class="page-title">📢 Official Announcements</h2>
+  <!-- ALL SUPPORT -->
+  <section id="allSupportPage" class="panel hidden">
+    <button class="primary back" onclick="goHome()">← Back</button>
+    <h2>💬 Host Support Center</h2>
+    <p>All participant conversations.</p>
+    <div id="supportConversations"></div>
+  </section>
 
-  <div class="notice">
-    <h3>🌾 Welcome to the portal!</h3>
-    <p>
-      Welcome to your official participant area.
-      Here you can check grades, rankings and contact production.
-    </p>
-    <small>PRODUCTION • Official notice</small>
-  </div>
+  <!-- ANNOUNCEMENTS -->
+  <section id="announcementsPage" class="panel hidden">
+    <button class="primary back" onclick="goHome()">← Back</button>
+    <h2>📢 Announcements</h2>
+    <p>Official notices from the production team.</p>
 
-  <div class="notice">
-    <h3>📋 Evaluation results</h3>
-    <p>
-      Your latest evaluation is available in the My Grades section.
-      Check your results and compare them with the general average.
-    </p>
-    <small>PRODUCTION • Evaluation</small>
-  </div>
+    <div id="announcementList"></div>
 
-  <div class="notice">
-    <h3>💬 Grade appeals</h3>
-    <p>
-      Participants who disagree with their evaluations can
-      contact production through the Support section.
-    </p>
-    <small>PRODUCTION • Important</small>
-  </div>
+    <div id="announcementEditor" class="hidden">
+      <hr>
+      <h3>Publish a new announcement</h3>
+      <textarea id="announcementInput" placeholder="Write your announcement here..."></textarea>
+      <button class="primary gold" onclick="publishAnnouncement()">PUBLISH ANNOUNCEMENT</button>
+    </div>
+  </section>
 
-</section>
+  <!-- ALL GRADES -->
+  <section id="allGradesPage" class="panel hidden">
+    <button class="primary back" onclick="goHome()">← Back</button>
+    <h2>📊 Complete Grades Worksheet</h2>
+    <p>Host-only participant grade overview.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Participant</th>
+            <th>Access code</th>
+            <th>Grade</th>
+            <th>Good judges</th>
+          </tr>
+        </thead>
+        <tbody id="allGradesTable"></tbody>
+      </table>
+    </div>
+  </section>
 
 </div>
 
 <footer>
-  🌾 FAZENDA • OFFICIAL PARTICIPANT PORTAL 🌾
+  CONFINAMENTO TOTAL • PRODUCTION PORTAL<br>
+  🌾 The official farm results platform
 </footer>
 
 <script>
-
-// ACCOUNT SETTINGS
-
-const ACCESS_CODE = "2k8s5";
-
-// DEMONSTRATION RANKING DATA
+/* ==========================================
+   PARTICIPANT DATABASE
+   Add new accounts inside this list.
+========================================== */
 
 const participants = [
-  {name:"Participant A", grade:9.5},
-  {name:"Participant B", grade:8.5},
-  {name:"Participant C", grade:8.0},
-  {name:"Participant D", grade:7.5},
-  {name:"soy maserati", grade:4.0}
+  {
+    code:"2k8s5",
+    name:"soy maserati",
+    grade:4.0,
+    judges:0,
+    role:"participant"
+  },
+  {
+    code:"3d4m9",
+    name:"kauany",
+    grade:9.8,
+    judges:3,
+    role:"participant"
+  },
+  {
+    code:"5x9d8",
+    name:"joaozinho",
+    grade:6.7,
+    judges:1,
+    role:"participant"
+  },
+  {
+    code:"4k1l3",
+    name:"kauany host",
+    grade:null,
+    judges:null,
+    role:"host"
+  }
 ];
 
-// LOGIN
+const AVERAGE = participants
+  .filter(p => p.role === "participant")
+  .reduce((sum,p) => sum + p.grade,0) /
+  participants.filter(p => p.role === "participant").length;
+
+let currentUser = null;
+
+function getData(key, fallback) {
+  try {
+    const saved = localStorage.getItem(key);
+    return saved ? JSON.parse(saved) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function saveData(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
+/* ==========================================
+   LOGIN
+========================================== */
 
 function login() {
+  const code = document.getElementById("accessCode").value.trim().toLowerCase();
+  const user = participants.find(p => p.code === code);
 
-  const entered = document.getElementById("code").value.trim();
-
-  if (entered === ACCESS_CODE) {
-
-    document.getElementById("login").classList.add("hidden");
-    document.getElementById("dashboard").classList.remove("hidden");
-
-    showPage("dashboard");
-
-  } else {
-
-    document.getElementById("error").textContent =
-      "Your code is incorrect. Please try again.";
-
+  if (!user) {
+    document.getElementById("loginError").textContent =
+      "Incorrect access code. Please try again.";
+    return;
   }
 
-}
+  currentUser = user;
 
-// LOGOUT
+  document.getElementById("loginScreen").classList.add("hidden");
+  document.getElementById("dashboard").classList.remove("hidden");
+
+  document.getElementById("welcomeTitle").textContent =
+    "Welcome, " + user.name + "!";
+
+  document.getElementById("accountDescription").textContent =
+    user.role === "host"
+      ? "You are logged in as the official host. You have special permissions."
+      : "Your personal Confinamento Total participant account.";
+
+  document.getElementById("hostMenu").classList.toggle(
+    "hidden", user.role !== "host"
+  );
+
+  renderRanking();
+  renderAnnouncements();
+
+  if (user.role === "participant") {
+    renderGrades();
+  }
+
+  goHome();
+}
 
 function logout() {
-
+  currentUser = null;
   document.getElementById("dashboard").classList.add("hidden");
-
-  document.querySelectorAll("#grades,#ranking,#support,#announcements")
-    .forEach(page => page.classList.add("hidden"));
-
-  document.getElementById("login").classList.remove("hidden");
-  document.getElementById("code").value = "";
-  document.getElementById("error").textContent = "";
-
+  document.getElementById("loginScreen").classList.remove("hidden");
+  document.getElementById("accessCode").value = "";
+  document.getElementById("loginError").textContent = "";
+  hideAllPages();
 }
 
-// NAVIGATION
+/* ==========================================
+   NAVIGATION
+========================================== */
 
-function showPage(page) {
+const pageIds = [
+  "gradesPage",
+  "rankingPage",
+  "supportPage",
+  "announcementsPage",
+  "allGradesPage",
+  "allSupportPage"
+];
 
-  const pages = [
-    "dashboard",
-    "grades",
-    "ranking",
-    "support",
-    "announcements"
-  ];
+function hideAllPages() {
+  pageIds.forEach(id =>
+    document.getElementById(id).classList.add("hidden")
+  );
+}
 
-  pages.forEach(id => {
-    document.getElementById(id).classList.add("hidden");
-  });
+function showPage(id) {
+  if (!currentUser) return;
 
-  document.getElementById(page).classList.remove("hidden");
+  const hostOnly = ["allGradesPage","allSupportPage"];
 
-  if (page === "ranking") {
-    renderRanking();
+  if (hostOnly.includes(id) && currentUser.role !== "host") {
+    alert("This section is reserved for the host.");
+    return;
   }
 
-  window.scrollTo({top:0,behavior:"smooth"});
+  hideAllPages();
+  document.getElementById(id).classList.remove("hidden");
 
+  if (id === "gradesPage") renderGrades();
+  if (id === "rankingPage") renderRanking();
+  if (id === "supportPage") renderMySupport();
+  if (id === "announcementsPage") renderAnnouncements();
+  if (id === "allGradesPage") renderAllGrades();
+  if (id === "allSupportPage") renderAllSupport();
 }
 
-// RANKING
+function goHome() {
+  hideAllPages();
+}
+
+/* ==========================================
+   GRADES
+========================================== */
+
+function renderGrades() {
+  if (!currentUser || currentUser.role !== "participant") return;
+
+  document.getElementById("gradeName").textContent = currentUser.name;
+  document.getElementById("myGrade").textContent =
+    currentUser.grade.toFixed(1);
+
+  document.getElementById("judgeCount").textContent =
+    currentUser.judges + " / 3";
+
+  const balls = document.getElementById("judgeBalls");
+  balls.innerHTML = "";
+
+  for (let i=0; i<3; i++) {
+    const ball = document.createElement("div");
+    ball.className = "ball " + (i < currentUser.judges ? "good" : "bad");
+    ball.title = i < currentUser.judges
+      ? "Good grade"
+      : "Did not give a good grade";
+    balls.appendChild(ball);
+  }
+
+  document.getElementById("myBar").style.width =
+    (currentUser.grade * 10) + "%";
+
+  document.getElementById("averageText").textContent =
+    AVERAGE.toFixed(2) + " / 10";
+
+  document.getElementById("averageBar").style.width =
+    (AVERAGE * 10) + "%";
+}
+
+/* ==========================================
+   RANKING
+========================================== */
 
 function renderRanking() {
+  const list = participants
+    .filter(p => p.role === "participant")
+    .slice()
+    .sort((a,b) => b.grade - a.grade);
 
-  const sorted = [...participants].sort((a,b) => b.grade-a.grade);
+  const tbody = document.getElementById("rankingTable");
+  tbody.innerHTML = "";
 
-  document.getElementById("rankingBody").innerHTML =
-    sorted.map((person,index) => {
+  list.forEach((p,index) => {
+    const tr = document.createElement("tr");
+    const position = ["🥇","🥈","🥉"][index] || (index+1);
 
-      const isMe = person.name === "soy maserati";
+    tr.innerHTML = `
+      <td>${position}</td>
+      <td>${escapeHTML(p.name)}</td>
+      <td><strong>${p.grade.toFixed(1)}</strong></td>
+    `;
 
-      return `
-        <tr>
-          <td class="rank-number">
-            ${index===0?"🥇":index===1?"🥈":index===2?"🥉":index+1}
-          </td>
-          <td>
-            ${person.name}
-            ${isMe ? '<span class="rank-badge">YOU</span>' : ''}
-          </td>
-          <td>${person.grade.toFixed(1)}</td>
-        </tr>
+    tbody.appendChild(tr);
+  });
+}
+
+/* ==========================================
+   HOST: ALL GRADES WORKSHEET
+========================================== */
+
+function renderAllGrades() {
+  if (!currentUser || currentUser.role !== "host") return;
+
+  const tbody = document.getElementById("allGradesTable");
+  tbody.innerHTML = "";
+
+  participants
+    .filter(p => p.role === "participant")
+    .forEach(p => {
+      const tr = document.createElement("tr");
+
+      tr.innerHTML = `
+        <td>${escapeHTML(p.name)}</td>
+        <td>${escapeHTML(p.code)}</td>
+        <td>${p.grade.toFixed(1)}</td>
+        <td>${p.judges}/3</td>
       `;
 
-    }).join("");
-
-}
-
-// SUPPORT CHAT
-
-function addMessage(text,type) {
-
-  const box = document.getElementById("chatMessages");
-
-  const message = document.createElement("div");
-  message.className = "message " + type;
-
-  const content = document.createElement("span");
-  content.textContent = text;
-
-  const time = document.createElement("small");
-  time.textContent =
-    new Date().toLocaleTimeString([],{
-      hour:"2-digit",
-      minute:"2-digit"
+      tbody.appendChild(tr);
     });
-
-  message.appendChild(content);
-  message.appendChild(time);
-
-  box.appendChild(message);
-  box.scrollTop = box.scrollHeight;
-
 }
 
-function sendMessage() {
+/* ==========================================
+   SUPPORT CHAT
+========================================== */
 
-  const input = document.getElementById("chatInput");
-  const text = input.value.trim();
+function supportKey(code) {
+  return "ct_support_" + code;
+}
 
-  if (!text) return;
+function renderMySupport() {
+  if (!currentUser || currentUser.role !== "participant") return;
 
-  addMessage(text,"participant");
+  const messages = getData(supportKey(currentUser.code), []);
+  const box = document.getElementById("myChat");
+  box.innerHTML = "";
 
-  // Save the conversation locally.
+  if (messages.length === 0) {
+    box.textContent = "No messages yet. You can start a conversation below.";
+    return;
+  }
 
-  const history = JSON.parse(
-    localStorage.getItem("fazendaChat") || "[]"
-  );
+  messages.forEach(m => {
+    const div = document.createElement("div");
+    div.className = "chat-message" + (m.from === "Host" ? " host" : "");
 
-  history.push({
-    text:text,
-    time:new Date().toISOString()
+    const small = document.createElement("small");
+    small.textContent = m.from + " • " + m.date;
+
+    const content = document.createElement("div");
+    content.textContent = m.text;
+
+    div.append(small,content);
+    box.appendChild(div);
   });
 
-  localStorage.setItem("fazendaChat",JSON.stringify(history));
+  box.scrollTop = box.scrollHeight;
+}
+
+function sendSupport() {
+  if (!currentUser || currentUser.role !== "participant") return;
+
+  const input = document.getElementById("supportInput");
+  const message = input.value.trim();
+
+  if (!message) {
+    alert("Write a message first.");
+    return;
+  }
+
+  const messages = getData(supportKey(currentUser.code), []);
+
+  messages.push({
+    from:currentUser.name,
+    text:message,
+    date:new Date().toLocaleString()
+  });
+
+  saveData(supportKey(currentUser.code),messages);
+  input.value = "";
+  renderMySupport();
+}
+
+/* ==========================================
+   HOST: ALL SUPPORT CONVERSATIONS
+========================================== */
+
+function renderAllSupport() {
+  if (!currentUser || currentUser.role !== "host") return;
+
+  const container = document.getElementById("supportConversations");
+  container.innerHTML = "";
+
+  participants
+    .filter(p => p.role === "participant")
+    .forEach(p => {
+      const messages = getData(supportKey(p.code), []);
+
+      const section = document.createElement("div");
+      section.className = "stat";
+
+      const title = document.createElement("h3");
+      title.textContent = p.name;
+
+      const box = document.createElement("div");
+      box.className = "support-box";
+
+      if (!messages.length) {
+        box.textContent = "No messages from this participant yet.";
+      }
+
+      messages.forEach(m => {
+        const div = document.createElement("div");
+        div.className = "chat-message" + (m.from === "Host" ? " host" : "");
+
+        const small = document.createElement("small");
+        small.textContent = m.from + " • " + m.date;
+
+        const content = document.createElement("div");
+        content.textContent = m.text;
+
+        div.append(small,content);
+        box.appendChild(div);
+      });
+
+      const reply = document.createElement("textarea");
+      reply.placeholder = "Reply to " + p.name + "...";
+
+      const send = document.createElement("button");
+      send.className = "primary";
+      send.textContent = "SEND REPLY";
+
+      send.onclick = () => {
+        const message = reply.value.trim();
+        if (!message) return;
+
+        const updated = getData(supportKey(p.code), []);
+
+        updated.push({
+          from:"Host",
+          text:message,
+          date:new Date().toLocaleString()
+        });
+
+        saveData(supportKey(p.code),updated);
+        renderAllSupport();
+      };
+
+      section.append(title,box,reply,send);
+      container.appendChild(section);
+    });
+}
+
+/* ==========================================
+   ANNOUNCEMENTS
+========================================== */
+
+function renderAnnouncements() {
+  const announcements = getData("ct_announcements", []);
+  const container = document.getElementById("announcementList");
+  const editor = document.getElementById("announcementEditor");
+
+  container.innerHTML = "";
+  editor.classList.toggle(
+    "hidden",
+    !currentUser || currentUser.role !== "host"
+  );
+
+  if (!announcements.length) {
+    container.textContent = "There are no announcements yet.";
+    return;
+  }
+
+  announcements.slice().reverse().forEach(a => {
+    const div = document.createElement("div");
+    div.className = "announcement";
+
+    const title = document.createElement("strong");
+    title.textContent = a.title || "Official Announcement";
+
+    const content = document.createElement("div");
+    content.textContent = a.text;
+
+    const small = document.createElement("small");
+    small.textContent = "Production • " + a.date;
+
+    div.append(title,content,small);
+    container.appendChild(div);
+  });
+}
+
+function publishAnnouncement() {
+  if (!currentUser || currentUser.role !== "host") {
+    alert("Only the host can publish announcements.");
+    return;
+  }
+
+  const input = document.getElementById("announcementInput");
+  const message = input.value.trim();
+
+  if (!message) {
+    alert("Write an announcement first.");
+    return;
+  }
+
+  const announcements = getData("ct_announcements", []);
+
+  announcements.push({
+    title:"Official Announcement",
+    text:message,
+    date:new Date().toLocaleString()
+  });
+
+  saveData("ct_announcements",announcements);
 
   input.value = "";
-
+  renderAnnouncements();
+  alert("Announcement published!");
 }
 
-function quickMessage(text) {
+/* ==========================================
+   SECURITY / TEXT DISPLAY HELPER
+========================================== */
 
-  document.getElementById("chatInput").value = text;
-  document.getElementById("chatInput").focus();
-
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#039;"
+  })[char]);
 }
-
-// RESTORE CHAT
-
-function restoreChat() {
-
-  const history = JSON.parse(
-    localStorage.getItem("fazendaChat") || "[]"
-  );
-
-  history.forEach(item => {
-    addMessage(item.text,"participant");
-  });
-
-}
-
-document.getElementById("chatInput").addEventListener(
-  "keydown",function(event) {
-
-    if (event.key === "Enter" && !event.shiftKey) {
-      event.preventDefault();
-      sendMessage();
-    }
-
-  }
-);
-
-// INITIALIZE
-
-restoreChat();
-
 </script>
 
 </body>
