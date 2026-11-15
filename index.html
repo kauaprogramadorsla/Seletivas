@@ -3,239 +3,188 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Grade Portal</title>
-
+<title>Confinamento Rural — Boletim</title>
 <style>
-* {
-  box-sizing: border-box;
+:root{
+  --ink:#332318;--muted:#78634d;--paper:#fff8e9;--cream:#f5e8cb;
+  --wood:#684326;--green:#42633d;--green2:#78945a;--gold:#d49a36;
+  --red:#bd3e32;--orange:#d98528;--line:#ddc9a4;
 }
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-  padding: 24px;
-  font-family: Arial, sans-serif;
-  color: white;
-  background: radial-gradient(circle at top, #29213e, #15121f 60%, #0d0b13);
+*{box-sizing:border-box}
+body{
+  margin:0;min-height:100vh;padding:28px 16px;color:var(--ink);
+  font-family:Georgia,"Times New Roman",serif;
+  background:
+    linear-gradient(90deg,transparent 49%,#ffffff08 50%,transparent 51%),
+    repeating-linear-gradient(0deg,#49321f 0,#49321f 3px,#533a25 3px,#533a25 7px);
 }
-
-.shell {
-  width: min(100%, 470px);
-  padding: 30px;
-  border: 1px solid #403651;
-  border-radius: 22px;
-  background: #1b1627;
-  box-shadow: 0 24px 70px #0006;
+.page{max-width:920px;margin:auto}
+header{
+  position:relative;overflow:hidden;text-align:center;padding:30px 20px;
+  color:#fff6df;border:5px double #d7b66d;border-radius:18px 18px 5px 5px;
+  background:linear-gradient(135deg,#29472e,#49683d 55%,#304a2d);
+  box-shadow:0 9px 22px #1c120b66;
 }
-
-h1 {
-  margin-top: 0;
+header:before,header:after{content:"✦  ❧  ✦";position:absolute;top:14px;color:#e5c47b;font-size:19px}
+header:before{left:18px}header:after{right:18px}
+.eyebrow{font:700 11px Arial,sans-serif;letter-spacing:3px;text-transform:uppercase;color:#e9ce8e}
+h1{font-size:clamp(27px,5vw,43px);margin:10px 0 5px;text-shadow:2px 3px #1d3421}
+header p{margin:0;color:#f4e5c4;font:14px Arial,sans-serif}
+.panel{
+  margin-top:18px;padding:23px;border:2px solid #b9955e;border-radius:8px;
+  background:var(--paper);box-shadow:0 7px 18px #1c120b55;
 }
-
-.hint {
-  color: #b9b0c8;
-  margin-bottom: 24px;
+.panel h2{margin:0 0 16px;color:var(--wood);font-size:23px}
+.intro{color:var(--muted);font:14px/1.5 Arial,sans-serif}
+.entry{display:flex;gap:10px}
+input{
+  min-width:0;flex:1;padding:14px;border:1px solid #bca47d;border-radius:6px;
+  background:#fffdf6;font-size:16px;color:var(--ink)
 }
-
-label {
-  display: block;
-  margin-bottom: 9px;
-  font-weight: bold;
+button{
+  border:0;border-radius:6px;padding:0 22px;background:var(--green);
+  color:white;font:bold 14px Arial,sans-serif;cursor:pointer
 }
-
-.entry {
-  display: flex;
-  gap: 9px;
+button:hover{filter:brightness(1.12)}
+#message{min-height:20px;margin:10px 0 0;color:var(--red);font:700 13px Arial,sans-serif}
+#result{display:none}
+.result-head{text-align:center;padding:22px 12px;border-radius:7px;color:#fff6e3;background:linear-gradient(135deg,#29472e,#587544)}
+.result-head .small{font:700 10px Arial,sans-serif;letter-spacing:2px;text-transform:uppercase;color:#e9ce8e}
+.result-head h2{margin:8px 0 15px;color:#fff6e3;font-size:clamp(25px,5vw,34px)}
+.grade{
+  width:112px;height:112px;margin:auto;display:grid;place-items:center;border-radius:50%;
+  border:5px solid #f5dfae;background:var(--red);color:white;
+  font:bold 52px Arial,sans-serif;box-shadow:0 5px 16px #0004
 }
-
-input {
-  flex: 1;
-  min-width: 0;
-  padding: 14px;
-  color: white;
-  background: #171321;
-  border: 1px solid #55476a;
-  border-radius: 11px;
-  font-size: 16px;
-}
-
-button {
-  padding: 0 18px;
-  border: none;
-  border-radius: 11px;
-  background: #a879e8;
-  color: #170e24;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-#message {
-  min-height: 22px;
-  margin-top: 13px;
-  color: #ff7777;
-}
-
-#result {
-  display: none;
-  margin-top: 25px;
-  padding: 23px 18px;
-  border: 1px solid #493b5b;
-  border-radius: 17px;
-  background: #211a30;
-  text-align: center;
-}
-
-#result h2 {
-  margin: 0 0 18px;
-  font-size: 26px;
-}
-
-.grade {
-  display: inline-grid;
-  place-items: center;
-  width: 104px;
-  height: 104px;
-  border-radius: 50%;
-  background: #e34b55;
-  color: white;
-  font-size: 48px;
-  font-weight: bold;
-}
-
-.grade-caption {
-  color: #c5bbd1;
-  margin-bottom: 25px;
-}
-
-.judges {
-  max-width: 290px;
-  margin: 0 auto 17px;
-  line-height: 1.45;
-  font-weight: bold;
-}
-
-.balls {
-  display: flex;
-  justify-content: center;
-  gap: 18px;
-}
-
-.ball {
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  background: #e34b55;
-  box-shadow: 0 3px 13px #e34b5555;
-}
-
-.tab-label {
-  display: inline-block;
-  margin-bottom: 15px;
-  color: #c5a5f2;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 1.7px;
-}
-
-@media (max-width: 390px) {
-  .shell {
-    padding: 23px 18px;
-  }
-
-  .entry {
-    flex-direction: column;
-  }
-
-  button {
-    min-height: 46px;
-  }
+.grade-caption{margin:9px 0 0;font:12px Arial,sans-serif;color:#f4e5c4}
+.section-title{display:flex;align-items:center;gap:10px;margin:24px 0 12px;color:var(--wood);font-size:21px}
+.section-title:after{content:"";height:1px;flex:1;background:var(--line)}
+.comparison{width:100%;border-collapse:collapse;font:14px Arial,sans-serif;background:#fffdf7}
+.comparison th,.comparison td{padding:12px 10px;border:1px solid var(--line);text-align:left}
+.comparison th{background:#eee0c2;color:#59412a}
+.comparison td:last-child{text-align:right;font-weight:bold}
+.delta{margin-top:12px;padding:13px;border-left:5px solid var(--red);background:#f7e5dc;border-radius:4px;font:14px/1.5 Arial,sans-serif}
+.delta strong{color:var(--red)}
+.bar-wrap{margin-top:17px}
+.bar-label{display:flex;justify-content:space-between;gap:12px;margin:0 0 6px;font:12px Arial,sans-serif;color:var(--muted)}
+.track{height:14px;border-radius:20px;background:#e8dcc5;overflow:hidden}
+.fill{height:100%;width:40%;background:var(--red);border-radius:20px}
+.avg-fill{height:100%;width:75%;background:var(--green2);border-radius:20px}
+.judges{text-align:center;margin:20px 0 12px;font:700 14px/1.5 Arial,sans-serif}
+.balls{display:flex;justify-content:center;gap:17px}
+.ball{width:25px;height:25px;border-radius:50%;background:var(--red);border:2px solid #8d2923;box-shadow:inset -3px -3px 4px #7b211e55}
+.ranking-note{font:13px/1.5 Arial,sans-serif;color:var(--muted);margin:-4px 0 12px}
+.rank-table{width:100%;border-collapse:collapse;font:14px Arial,sans-serif}
+.rank-table th,.rank-table td{padding:11px;border-bottom:1px solid var(--line);text-align:left}
+.rank-table th{color:#6b4b2e;background:#f0e4cd}
+.rank-num{font-weight:bold;color:var(--wood);width:55px}
+.rank-score{font-weight:bold;text-align:right!important}
+.status{font:bold 11px Arial,sans-serif;padding:5px 8px;border-radius:20px;background:#f4d8d3;color:#9d3029}
+.scale{display:flex;justify-content:space-between;gap:5px;margin-top:13px;font:10px Arial,sans-serif;color:var(--muted)}
+.scale span{flex:1;text-align:center;padding:6px 2px;border-radius:4px}
+.s-red{background:#f4d8d3}.s-orange{background:#f8e3c5}.s-green{background:#dce9d4}
+footer{text-align:center;color:#f4e5c4;font:11px Arial,sans-serif;padding:20px}
+@media(max-width:560px){
+  body{padding:14px 9px}.panel{padding:17px 13px}.entry{flex-direction:column}
+  button{min-height:46px}.comparison th,.comparison td{padding:9px 7px;font-size:12px}
+  .rank-table th,.rank-table td{padding:9px 7px;font-size:12px}
 }
 </style>
 </head>
-
 <body>
+<div class="page">
+<header>
+  <div class="eyebrow">Confinamento • Resultado oficial</div>
+  <h1>O BOLETIM DA FAZENDA</h1>
+  <p>Seu desempenho, direto do campo</p>
+</header>
 
-<main class="shell">
-
-  <h1>Grade Portal</h1>
-
-  <p class="hint">
-    Enter your access code to see your result.
-  </p>
-
+<section class="panel" id="login">
+  <h2>🔒 Área dos participantes</h2>
+  <p class="intro">Digite seu código de acesso para consultar o boletim.</p>
   <form id="codeForm">
-
-    <label for="accessCode">Access code</label>
-
     <div class="entry">
-      <input
-        id="accessCode"
-        type="text"
-        placeholder="Enter your code"
-        autocomplete="off"
-      >
-
-      <button type="submit">Open</button>
+      <input id="accessCode" type="text" placeholder="Digite seu código" autocomplete="off">
+      <button type="submit">Consultar nota</button>
     </div>
-
   </form>
+  <p id="message" role="status" aria-live="polite"></p>
+</section>
 
-  <p id="message"></p>
-
-  <section id="result">
-
-    <span class="tab-label">Your result</span>
-
+<main class="panel" id="result" aria-live="polite">
+  <div class="result-head">
+    <div class="small">Resultado individual</div>
     <h2>soy maserati</h2>
+    <div class="grade" id="gradeCircle">4</div>
+    <p class="grade-caption">NOTA FINAL</p>
+  </div>
 
-    <div class="grade" id="grade">4</div>
+  <h3 class="section-title">📋 Comparativo de notas</h3>
+  <p class="intro">Veja como sua nota ficou em relação à média geral.</p>
+  <table class="comparison">
+    <thead><tr><th>Indicador</th><th>Nota</th></tr></thead>
+    <tbody>
+      <tr><td>Sua nota — soy maserati</td><td id="yourGrade">4,0</td></tr>
+      <tr><td>Média geral</td><td id="averageGrade">7,5</td></tr>
+      <tr><td>Diferença para a média</td><td id="difference">−3,5</td></tr>
+    </tbody>
+  </table>
+  <div class="delta" id="comparisonMessage">
+    Sua nota ficou <strong>3,5 pontos abaixo da média geral.</strong>
+  </div>
 
-    <p class="grade-caption">Your grade</p>
+  <div class="bar-wrap">
+    <div class="bar-label"><span>Sua nota</span><strong>4,0 / 10</strong></div>
+    <div class="track"><div class="fill"></div></div>
+  </div>
+  <div class="bar-wrap">
+    <div class="bar-label"><span>Média geral</span><strong>7,5 / 10</strong></div>
+    <div class="track"><div class="avg-fill"></div></div>
+  </div>
 
-    <p class="judges">
-      you didn't get a good grade from any of the judges
-    </p>
+  <h3 class="section-title">🏅 Ranking de notas</h3>
+  <p class="ranking-note">Comparação ilustrativa entre sua nota e a média geral — a média não representa um participante.</p>
+  <table class="rank-table">
+    <thead><tr><th>Posição</th><th>Referência</th><th class="rank-score">Nota</th></tr></thead>
+    <tbody>
+      <tr><td class="rank-num">—</td><td>Média geral</td><td class="rank-score">7,5</td></tr>
+      <tr><td class="rank-num">—</td><td>soy maserati <span class="status">Abaixo da média</span></td><td class="rank-score">4,0</td></tr>
+    </tbody>
+  </table>
 
-    <div class="balls">
-      <span class="ball"></span>
-      <span class="ball"></span>
-      <span class="ball"></span>
-    </div>
+  <div class="scale" aria-label="Faixas de nota">
+    <span class="s-red">0–5<br>Vermelho</span>
+    <span class="s-orange">6–7<br>Laranja</span>
+    <span class="s-green">8–10<br>Verde</span>
+  </div>
 
-  </section>
-
+  <h3 class="section-title">⚖️ Avaliação dos jurados</h3>
+  <p class="judges">you didn't get a good grade from any of the judges</p>
+  <div class="balls" aria-label="Three red judge indicators">
+    <span class="ball"></span><span class="ball"></span><span class="ball"></span>
+  </div>
 </main>
+<footer>✦ Um resultado da fazenda ✦</footer>
+</div>
 
 <script>
-
 const CORRECT_CODE = "2k8s5";
-
 const form = document.getElementById("codeForm");
 const input = document.getElementById("accessCode");
 const message = document.getElementById("message");
 const result = document.getElementById("result");
 
 form.addEventListener("submit", function(event) {
-
   event.preventDefault();
 
   if (input.value.trim() === CORRECT_CODE) {
-
     message.textContent = "";
     result.style.display = "block";
-
   } else {
-
     result.style.display = "none";
     message.textContent = "your code is incorrect";
-
   }
-
 });
-
 </script>
-
 </body>
 </html>
