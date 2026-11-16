@@ -1,19 +1,23 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Confinamento Total | Grade Portal</title>
-
+<title>Confinamento Total | Portal de Notas</title>
 <style>
 :root {
-  --green:#263d2b;
-  --green2:#3f6040;
-  --gold:#d6a84b;
+  --soil:#2a1a0e;
+  --brown:#63452d;
+  --brown2:#7a4e2c;
+  --wood:#8a5a34;
+  --wood-dark:#4a2f1b;
+  --tan:#c9a06a;
+  --parchment:#f3e3c3;
   --cream:#f4edda;
   --paper:#fffaf0;
-  --brown:#63452d;
+  --gold:#d6a84b;
+  --green:#263d2b;
+  --green2:#3f6040;
   --red:#b63b32;
 }
 
@@ -22,35 +26,46 @@
 body {
   margin:0;
   min-height:100vh;
-  font-family:Georgia,serif;
+  font-family:Georgia,"Times New Roman",serif;
   color:var(--brown);
   background:
-    linear-gradient(#17291edb,#17291edb),
-    repeating-linear-gradient(45deg,#354b36 0px,#354b36 3px,#263d2b 3px,#263d2b 7px);
+    radial-gradient(circle at 50% -10%, #6b4529 0%, transparent 55%),
+    linear-gradient(#241408d9,#241408d9),
+    repeating-linear-gradient(90deg,#5b3a22 0px,#5b3a22 7px,#4a2f1b 7px,#4a2f1b 14px);
 }
 
 button,input,textarea { font:inherit; }
 
-button {
-  cursor:pointer;
-  border:0;
-}
+button { cursor:pointer; border:0; }
 
 .hidden { display:none !important; }
 
+/* ===== HEADER (barn wood) ===== */
 header {
-  background:linear-gradient(135deg,#203525,#405b39);
+  position:relative;
+  background:
+    repeating-linear-gradient(0deg,#6b4529 0px,#6b4529 2px,#5b3a22 2px,#5b3a22 5px),
+    linear-gradient(135deg,#5b3a22,#3a2416);
   color:#fff5d9;
   text-align:center;
-  padding:25px 15px;
-  border-bottom:5px solid var(--gold);
-  box-shadow:0 4px 15px #0005;
+  padding:26px 15px 30px;
+  border-bottom:6px solid var(--gold);
+  box-shadow:0 6px 18px #0007;
+}
+
+header::after {
+  content:"";
+  position:absolute;
+  left:0; right:0; bottom:-6px; height:6px;
+  background:repeating-linear-gradient(90deg,var(--gold) 0 16px,#7a4e2c 16px 32px);
 }
 
 header h1 {
   margin:0;
   font-size:clamp(25px,5vw,38px);
   letter-spacing:2px;
+  color:#ffe9b8;
+  text-shadow:0 2px 6px #0008;
 }
 
 header p {
@@ -60,24 +75,73 @@ header p {
   font-size:12px;
 }
 
+/* ===== LANGUAGE SWITCH ===== */
+.lang-switch {
+  position:absolute;
+  top:12px; right:12px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  background:#2a1a0ecc;
+  border:1px solid var(--gold);
+  border-radius:8px;
+  padding:5px 9px;
+  z-index:5;
+}
+
+.lang-label {
+  font-size:11px;
+  color:#e6c77c;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+
+.lang-switch select {
+  background:transparent;
+  color:#fff5d9;
+  border:0;
+  font-size:13px;
+  font-weight:bold;
+  cursor:pointer;
+  padding:2px;
+  outline:none;
+}
+
+.lang-switch option {
+  color:#3a2416;
+  background:#f3e3c3;
+}
+
 .container {
   width:min(950px,94%);
   margin:25px auto;
 }
 
+/* ===== PANELS (parchment + wood frame) ===== */
 .panel {
-  background:var(--paper);
-  border:2px solid var(--gold);
-  border-radius:13px;
-  padding:22px;
-  box-shadow:0 8px 25px #0004;
+  position:relative;
+  background:linear-gradient(180deg,#fffaf0,#f7ecd6);
+  border:2px solid var(--wood);
+  border-radius:12px;
+  padding:24px 22px 22px;
+  box-shadow:0 0 0 3px #00000022, 0 10px 28px #0006;
   margin-bottom:18px;
 }
 
-h2,h3 { color:var(--green); }
+.panel::before {
+  content:"";
+  position:absolute;
+  top:0; left:0; right:0; height:4px;
+  border-radius:12px 12px 0 0;
+  background:repeating-linear-gradient(90deg,var(--gold) 0 12px,var(--wood) 12px 24px);
+  opacity:.9;
+}
+
+h2,h3 { color:var(--brown2); }
 
 h2 {
-  border-bottom:2px solid #d8c69b;
+  color:#3a2416;
+  border-bottom:2px solid var(--tan);
   padding-bottom:10px;
 }
 
@@ -90,11 +154,16 @@ h2 {
 input,textarea {
   width:100%;
   padding:13px;
-  border:1px solid #c5b58f;
+  border:1px solid #b99a6b;
   border-radius:8px;
-  background:#fffdf7;
+  background:#fffdf6;
   margin:8px 0;
-  color:#392d20;
+  color:#3a2416;
+}
+
+input:focus,textarea:focus {
+  outline:2px solid var(--gold);
+  border-color:var(--wood);
 }
 
 textarea {
@@ -102,26 +171,32 @@ textarea {
   resize:vertical;
 }
 
+/* ===== BUTTONS ===== */
 .primary {
-  background:var(--green);
-  color:white;
+  background:linear-gradient(145deg,#7a4e2c,#4a2f1b);
+  color:#fff5dc;
   padding:13px 18px;
   border-radius:8px;
   font-weight:bold;
+  border:1px solid #a9773f;
+  box-shadow:0 3px 8px #0003;
 }
 
-.primary:hover { background:var(--green2); }
+.primary:hover { background:linear-gradient(145deg,#8a5a34,#5b3a22); }
 
 .gold {
-  background:var(--gold);
+  background:linear-gradient(145deg,#e2bd63,#c99a34);
   color:#382816;
+  border-color:#a9773f;
 }
 
 .danger {
-  background:#9e3830;
+  background:linear-gradient(145deg,#a84038,#7d2a24);
   color:white;
+  border-color:#7d2a24;
 }
 
+/* ===== MENU ===== */
 .menu {
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
@@ -130,28 +205,37 @@ textarea {
 }
 
 .menu button {
-  padding:20px 10px;
+  padding:18px 10px;
   border-radius:10px;
   color:#fff5dc;
-  background:linear-gradient(145deg,#405b39,#263d2b);
+  background:linear-gradient(145deg,#8a5a34,#4a2f1b);
   border:1px solid var(--gold);
   font-size:16px;
   font-weight:bold;
-  box-shadow:0 4px 8px #0002;
+  box-shadow:0 4px 8px #0003;
 }
 
 .menu button:hover {
-  background:linear-gradient(145deg,#617a4e,#354e35);
+  background:linear-gradient(145deg,#9a6a40,#5b3a22);
   transform:translateY(-1px);
 }
 
-.back {
-  margin-bottom:15px;
+.menu button .ico {
+  display:block;
+  font-size:22px;
+  margin-bottom:4px;
 }
 
+.menu button span:last-child {
+  display:block;
+  line-height:1.2;
+}
+
+.back { margin-bottom:15px; }
+
 .stat {
-  background:#eee5ce;
-  border-left:5px solid var(--gold);
+  background:var(--parchment);
+  border-left:5px solid var(--wood);
   padding:13px;
   border-radius:7px;
   margin:10px 0;
@@ -160,7 +244,7 @@ textarea {
 .big-grade {
   font-size:48px;
   font-weight:bold;
-  color:var(--green);
+  color:#3a2416;
   text-align:center;
   margin:15px;
 }
@@ -169,7 +253,7 @@ textarea {
   display:flex;
   justify-content:center;
   gap:15px;
-  margin:20px 0;
+  margin:20px 0 6px;
 }
 
 .ball {
@@ -178,10 +262,24 @@ textarea {
   border-radius:50%;
   border:3px solid #fff;
   box-shadow:0 2px 6px #0005;
+  cursor:pointer;
+  transition:transform .12s ease;
 }
+
+.ball:hover { transform:scale(1.12); }
 
 .good { background:#35a75c; }
 .bad { background:#c43c34; }
+.none { background:#9a8f7a; }
+
+.judge-info {
+  text-align:center;
+  font-size:14px;
+  color:#5a4a33;
+  min-height:20px;
+  margin:4px 0 8px;
+  font-weight:bold;
+}
 
 .bar-bg {
   background:#ded5c2;
@@ -197,6 +295,7 @@ textarea {
   border-radius:20px;
 }
 
+/* ===== TABLES ===== */
 table {
   width:100%;
   border-collapse:collapse;
@@ -211,16 +310,17 @@ th,td {
 }
 
 th {
-  background:#304833;
-  color:white;
+  background:linear-gradient(#5b3a22,#3a2416);
+  color:#f7e7c6;
 }
 
-tr:nth-child(even) { background:#f0e9d8; }
+tr:nth-child(even) { background:#f3e3c3; }
 
 .table-wrap { overflow-x:auto; }
 
+/* ===== ANNOUNCEMENTS / CHAT ===== */
 .announcement {
-  background:#f0e7d2;
+  background:var(--parchment);
   border-left:5px solid var(--gold);
   padding:15px;
   margin:12px 0;
@@ -237,14 +337,14 @@ tr:nth-child(even) { background:#f0e9d8; }
 .chat-message {
   padding:12px;
   border-radius:8px;
-  background:#eee6d5;
+  background:#f0e6cf;
   margin:10px 0;
   white-space:pre-wrap;
 }
 
 .chat-message.host {
-  background:#dce8d8;
-  border-left:4px solid var(--green2);
+  background:#e7e0c9;
+  border-left:4px solid var(--wood);
 }
 
 .chat-message small {
@@ -260,6 +360,7 @@ tr:nth-child(even) { background:#f0e9d8; }
   border-radius:8px;
   padding:10px;
   margin:12px 0;
+  background:#fffdf6;
 }
 
 .notice {
@@ -268,109 +369,167 @@ tr:nth-child(even) { background:#f0e9d8; }
   line-height:1.5;
 }
 
+/* ===== CREATED CARD ===== */
+.code-display {
+  font-size:26px;
+  font-weight:bold;
+  letter-spacing:4px;
+  color:#3a2416;
+  background:#fff4d8;
+  border:2px dashed var(--gold);
+  border-radius:8px;
+  padding:12px;
+  text-align:center;
+  margin:10px 0;
+  user-select:all;
+}
+
+.created-card {
+  background:#f7ecd6;
+  border:2px solid var(--wood);
+  border-radius:10px;
+  padding:16px;
+  margin-top:14px;
+}
+
+.created-card h3 { margin-top:0; color:var(--green2); }
+
+.warn-box {
+  background:#fbeee0;
+  border-left:5px solid #c07a2c;
+  padding:10px 12px;
+  border-radius:6px;
+  font-size:13px;
+  color:#7a4d16;
+  margin-top:10px;
+  line-height:1.45;
+}
+
 footer {
   color:#e8d6a8;
   text-align:center;
   padding:25px 10px;
   font-size:12px;
+  letter-spacing:1px;
+}
+
+@media(max-width:600px) {
+  header { padding-top:54px; }
+  .lang-switch { top:10px; right:10px; }
+  .lang-label { display:none; }
 }
 
 @media(max-width:500px) {
-  .panel { padding:16px; }
+  .panel { padding:20px 16px 16px; }
   .menu { grid-template-columns:1fr 1fr; }
-  .menu button { font-size:14px; padding:17px 7px; }
+  .menu button { font-size:14px; padding:16px 7px; }
   table { font-size:12px; }
   th,td { padding:9px 6px; }
 }
 </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
 </head>
-
 <body>
-
 <header>
+  <div class="lang-switch">
+    <span class="lang-label" data-i18n="language">Idioma</span>
+    <select id="langSelect" onchange="setLanguage(this.value)" aria-label="Language">
+      <option value="pt">🇧🇷 Português</option>
+      <option value="en">🇬🇧 English</option>
+      <option value="es">🇪🇸 Español</option>
+    </select>
+  </div>
   <h1>🌾 CONFINAMENTO TOTAL</h1>
-  <p>OFFICIAL PARTICIPANT PORTAL</p>
+  <p data-i18n="subtitle">PORTAL OFICIAL DO PARTICIPANTE</p>
 </header>
 
 <div class="container">
 
   <!-- LOGIN -->
   <section id="loginScreen" class="panel login">
-    <h2>Welcome to the Farm</h2>
-    <p>Enter your personal access code to open your account.</p>
-    <input id="accessCode" type="password" placeholder="Your access code">
-    <button class="primary" style="width:100%" onclick="login()">ENTER THE PORTAL</button>
+    <h2 data-i18n="loginTitle">Bem-vindo à Fazenda</h2>
+    <p data-i18n="loginSubtitle">Digite seu código de acesso pessoal para abrir sua conta.</p>
+    <input id="accessCode" type="password" data-i18n-ph="accessCodePlaceholder" placeholder="Seu código de acesso">
+    <button class="primary" style="width:100%" onclick="login()" data-i18n="loginBtn">ENTRAR NO PORTAL</button>
     <p id="loginError" class="notice"></p>
   </section>
 
   <!-- DASHBOARD -->
   <section id="dashboard" class="hidden">
     <div class="panel">
-      <h2 id="welcomeTitle">Welcome!</h2>
-      <p id="accountDescription">Your participant account.</p>
-      <button class="primary danger" onclick="logout()">LOG OUT</button>
+      <h2 id="welcomeTitle">Bem-vindo!</h2>
+      <p id="accountDescription">Sua conta de participante.</p>
+      <button class="primary danger" onclick="logout()" data-i18n="logout">SAIR</button>
     </div>
 
     <div class="menu">
-      <button onclick="showPage('gradesPage')">📋<br>My Grades</button>
-      <button onclick="showPage('rankingPage')">🏆<br>Ranking</button>
-      <button onclick="showPage('supportPage')">💬<br>Support</button>
-      <button onclick="showPage('announcementsPage')">📢<br>Announcements</button>
+      <button onclick="showPage('gradesPage')"><span class="ico">📋</span><span data-i18n="menuMyGrades">Minhas Notas</span></button>
+      <button onclick="showPage('rankingPage')"><span class="ico">🏆</span><span data-i18n="menuRanking">Ranking</span></button>
+      <button onclick="showPage('supportPage')"><span class="ico">💬</span><span data-i18n="menuSupport">Suporte</span></button>
+      <button onclick="showPage('announcementsPage')"><span class="ico">📢</span><span data-i18n="menuAnnouncements">Avisos</span></button>
     </div>
 
     <div id="hostMenu" class="panel hidden">
-      <h2>🌟 Host Control Center</h2>
-      <p>Special permissions for the host account.</p>
+      <h2 data-i18n="hostTitle">⭐ Central do Apresentador</h2>
+      <p data-i18n="hostSubtitle">Permissões especiais para a conta do apresentador.</p>
       <div class="menu">
-        <button onclick="showPage('allGradesPage')">📊<br>All Grades Worksheet</button>
-        <button onclick="showPage('allSupportPage')">💬<br>All Support Chats</button>
-        <button onclick="showPage('announcementsPage')">📢<br>Publish Announcement</button>
+        <button onclick="showPage('createProfilePage')"><span class="ico">➕</span><span data-i18n="menuCreateProfile">Criar Perfil</span></button>
+        <button onclick="showPage('allGradesPage')"><span class="ico">📊</span><span data-i18n="menuAllGrades">Planilha de Todas as Notas</span></button>
+        <button onclick="showPage('allSupportPage')"><span class="ico">💬</span><span data-i18n="menuAllSupport">Todos os Chats de Suporte</span></button>
+        <button onclick="showPage('announcementsPage')"><span class="ico">📢</span><span data-i18n="menuPublish">Publicar Aviso</span></button>
       </div>
     </div>
   </section>
 
   <!-- MY GRADES -->
   <section id="gradesPage" class="panel hidden">
-    <button class="primary back" onclick="goHome()">← Back</button>
-    <h2>📋 My Grades</h2>
-    <p>Your official evaluation results.</p>
+    <button class="primary back" onclick="goHome()" data-i18n="back">← Voltar</button>
+    <h2 data-i18n="myGradesTitle">📋 Minhas Notas</h2>
+    <p data-i18n="myGradesSubtitle">Seus resultados oficiais de avaliação.</p>
 
     <div class="stat">
-      <strong>Participant:</strong> <span id="gradeName"></span>
+      <strong data-i18n="participantLabel">Participante:</strong> <span id="gradeName"></span>
     </div>
 
     <div class="big-grade" id="myGrade">0.0</div>
-    <p style="text-align:center">YOUR FINAL GRADE</p>
+    <p style="text-align:center" data-i18n="finalGrade">SUA NOTA FINAL</p>
 
     <div class="stat">
-      <strong>Judges who gave you a good grade:</strong>
+      <strong data-i18n="judgesWho">Jurados que te avaliaram:</strong>
       <span id="judgeCount"></span>
     </div>
 
     <div class="judges" id="judgeBalls"></div>
+    <div class="judge-info" id="judgeInfo"></div>
 
-    <h3>Grade comparison</h3>
-    <p>Your grade</p>
+    <h3 data-i18n="gradeComparison">Comparação de notas</h3>
+    <p data-i18n="yourGrade">Sua nota</p>
     <div class="bar-bg"><div class="bar" id="myBar"></div></div>
 
-    <p>Class average: <strong id="averageText"></strong></p>
+    <p><span data-i18n="classAverage">Média da turma:</span> <strong id="averageText"></strong></p>
     <div class="bar-bg"><div class="bar" id="averageBar"></div></div>
 
     <div class="stat">
-      <strong>Evaluation scale:</strong>
-      <p>0 – 10 points</p>
+      <strong data-i18n="evalScale">Escala de avaliação:</strong>
+      <p data-i18n="evalScaleText">0 – 10 pontos</p>
     </div>
   </section>
 
   <!-- RANKING -->
   <section id="rankingPage" class="panel hidden">
-    <button class="primary back" onclick="goHome()">← Back</button>
-    <h2>🏆 Official Ranking</h2>
-    <p>Participants ordered by their final grades.</p>
+    <button class="primary back" onclick="goHome()" data-i18n="back">← Voltar</button>
+    <h2 data-i18n="rankingTitle">🏆 Ranking Oficial</h2>
+    <p data-i18n="rankingSubtitle">Participantes ordenados pelas notas finais.</p>
+
+    <div id="myPosition" class="stat hidden" style="text-align:center">
+      <div class="big-grade" id="myPositionNumber" style="margin:6px">—</div>
+      <p style="margin:0"><span data-i18n="yourPositionPrefix">SUA POSIÇÃO DE</span> <span id="myPositionTotal">0</span></p>
+    </div>
+
     <div class="table-wrap">
       <table>
         <thead>
-          <tr><th>Position</th><th>Participant</th><th>Grade</th></tr>
+          <tr><th data-i18n="colPosition">Posição</th><th data-i18n="colParticipant">Participante</th><th data-i18n="colGrade">Nota</th></tr>
         </thead>
         <tbody id="rankingTable"></tbody>
       </table>
@@ -379,51 +538,53 @@ footer {
 
   <!-- SUPPORT -->
   <section id="supportPage" class="panel hidden">
-    <button class="primary back" onclick="goHome()">← Back</button>
-    <h2>💬 Support Center</h2>
-    <p>Do you believe your grade was unfair? Send a message to the host.</p>
+    <button class="primary back" onclick="goHome()" data-i18n="back">← Voltar</button>
+    <h2 data-i18n="supportTitle">💬 Central de Suporte</h2>
+    <p data-i18n="supportSubtitle">Acha que sua nota foi injusta? Envie uma mensagem para o apresentador.</p>
     <div id="myChat" class="support-box"></div>
-    <textarea id="supportInput" placeholder="Explain your situation..."></textarea>
-    <button class="primary" onclick="sendSupport()">SEND MESSAGE</button>
+    <textarea id="supportInput" data-i18n-ph="supportPlaceholder" placeholder="Explique sua situação..."></textarea>
+    <button class="primary" onclick="sendSupport()" data-i18n="sendMessage">ENVIAR MENSAGEM</button>
   </section>
 
   <!-- ALL SUPPORT -->
   <section id="allSupportPage" class="panel hidden">
-    <button class="primary back" onclick="goHome()">← Back</button>
-    <h2>💬 Host Support Center</h2>
-    <p>All participant conversations.</p>
+    <button class="primary back" onclick="goHome()" data-i18n="back">← Voltar</button>
+    <h2 data-i18n="allSupportTitle">💬 Central de Suporte do Apresentador</h2>
+    <p data-i18n="allSupportSubtitle">Todas as conversas dos participantes.</p>
     <div id="supportConversations"></div>
   </section>
 
   <!-- ANNOUNCEMENTS -->
   <section id="announcementsPage" class="panel hidden">
-    <button class="primary back" onclick="goHome()">← Back</button>
-    <h2>📢 Announcements</h2>
-    <p>Official notices from the production team.</p>
+    <button class="primary back" onclick="goHome()" data-i18n="back">← Voltar</button>
+    <h2 data-i18n="annTitle">📢 Avisos</h2>
+    <p data-i18n="annSubtitle">Avisos oficiais da equipe de produção.</p>
 
     <div id="announcementList"></div>
 
     <div id="announcementEditor" class="hidden">
       <hr>
-      <h3>Publish a new announcement</h3>
-      <textarea id="announcementInput" placeholder="Write your announcement here..."></textarea>
-      <button class="primary gold" onclick="publishAnnouncement()">PUBLISH ANNOUNCEMENT</button>
+      <h3 data-i18n="annPublishTitle">Publicar um novo aviso</h3>
+      <textarea id="announcementInput" data-i18n-ph="annPlaceholder" placeholder="Escreva seu aviso aqui..."></textarea>
+      <button class="primary gold" onclick="publishAnnouncement()" data-i18n="annPublishBtn">PUBLICAR AVISO</button>
     </div>
   </section>
 
   <!-- ALL GRADES -->
   <section id="allGradesPage" class="panel hidden">
-    <button class="primary back" onclick="goHome()">← Back</button>
-    <h2>📊 Complete Grades Worksheet</h2>
-    <p>Host-only participant grade overview.</p>
+    <button class="primary back" onclick="goHome()" data-i18n="back">← Voltar</button>
+    <h2 data-i18n="allGradesTitle">📊 Planilha Completa de Notas</h2>
+    <p data-i18n="allGradesSubtitle">Visão geral das notas dos participantes (somente apresentador).</p>
     <div class="table-wrap">
       <table>
         <thead>
           <tr>
-            <th>Participant</th>
-            <th>Access code</th>
-            <th>Grade</th>
-            <th>Good judges</th>
+            <th data-i18n="colParticipant">Participante</th>
+            <th data-i18n="colAccessCode">Código de acesso</th>
+            <th data-i18n="colGrade">Nota</th>
+            <th data-i18n="colJudges">Jurados</th>
+            <th data-i18n="colKauany">Kauany</th>
+            <th data-i18n="colSoy">Soy</th>
           </tr>
         </thead>
         <tbody id="allGradesTable"></tbody>
@@ -431,96 +592,559 @@ footer {
     </div>
   </section>
 
+  <!-- CREATE PROFILE (HOST ONLY) -->
+  <section id="createProfilePage" class="panel hidden">
+    <button class="primary back" onclick="goHome()" data-i18n="back">← Voltar</button>
+    <h2 data-i18n="createTitle">➕ Criar Perfil de Participante</h2>
+    <p data-i18n="createSubtitle">Crie uma nova conta de participante. Um código de acesso único será gerado automaticamente.</p>
+
+    <input id="newName" type="text" data-i18n-ph="newNamePlaceholder" placeholder="Nome do participante">
+    <input id="newGradeKauany" type="number" min="0" max="10" step="0.1" data-i18n-ph="newGkPlaceholder" placeholder="Nota da Kauany (0 - 10)">
+    <input id="newGradeSoy" type="number" min="0" max="10" step="0.1" data-i18n-ph="newGsPlaceholder" placeholder="Nota do Soy (0 - 10)">
+    <button class="primary gold" style="width:100%" onclick="createProfile()" data-i18n="createBtn">CRIAR CONTA</button>
+
+    <div id="createResult" class="hidden"></div>
+  </section>
+
 </div>
 
 <footer>
-  CONFINAMENTO TOTAL • PRODUCTION PORTAL<br>
-  🌾 The official farm results platform
+  <span data-i18n="footer1">CONFINAMENTO TOTAL • PORTAL DE PRODUÇÃO</span><br>
+  <span data-i18n="footer2">🌾 A plataforma oficial de resultados da fazenda</span>
 </footer>
 
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+import {
+  getDatabase,
+  ref,
+  push,
+  set,
+  onValue
+} from "https://www.gstatic.com/firebasejs/12.9.0/firebase-database.js";
+
 /* ==========================================
-   PARTICIPANT DATABASE
-   Add new accounts inside this list.
+   FIREBASE CONNECTION
 ========================================== */
 
-const participants = [
-  {
-    code:"2k8s5",
-    name:"soy maserati",
-    grade:4.0,
-    judges:0,
-    role:"participant"
+const firebaseConfig = {
+  apiKey: "AIzaSyC8PSXTyOxn_kgyFzpn-Qw3EGUXdS7BGOo",
+  authDomain: "feature-8e659.firebaseapp.com",
+  databaseURL: "https://feature-8e659-default-rtdb.firebaseio.com",
+  projectId: "feature-8e659",
+  storageBucket: "feature-8e659.firebasestorage.app",
+  messagingSenderId: "755676249847",
+  appId: "1:755676249847:web:2a01bda6f99d6e32b7ddf2",
+  measurementId: "G-LN21J71XEV"
+};
+
+const app = initializeApp(firebaseConfig, "CTGradePortal");
+const db = getDatabase(app);
+
+/*
+  IMPORTANT:
+  Your Firebase rules deny /gradePortal/participants,
+  but they DO allow /gradePortal/support and /gradePortal/announcements.
+  So created accounts are stored inside the allowed support path,
+  under the reserved key "__accounts".
+*/
+const ACCOUNTS_PATH = "gradePortal/support/__accounts";
+const accountsRef = ref(db, ACCOUNTS_PATH);
+
+const announcementsRef = ref(db, "gradePortal/announcements");
+const supportRef = ref(db, "gradePortal/support");
+
+/* ==========================================
+   TRANSLATIONS (Portuguese is the default)
+========================================== */
+
+const translations = {
+  pt: {
+    language: "Idioma",
+    subtitle: "PORTAL OFICIAL DO PARTICIPANTE",
+    loginTitle: "Bem-vindo à Fazenda",
+    loginSubtitle: "Digite seu código de acesso pessoal para abrir sua conta.",
+    accessCodePlaceholder: "Seu código de acesso",
+    loginBtn: "ENTRAR NO PORTAL",
+    loginError: "Código de acesso incorreto. Tente novamente.",
+    welcome: "Bem-vindo, {name}!",
+    hostDesc: "Você está logado como o apresentador oficial. Você tem permissões especiais.",
+    participantDesc: "Sua conta pessoal de participante do Confinamento Total.",
+    logout: "SAIR",
+    menuMyGrades: "Minhas Notas",
+    menuRanking: "Ranking",
+    menuSupport: "Suporte",
+    menuAnnouncements: "Avisos",
+    hostTitle: "⭐ Central do Apresentador",
+    hostSubtitle: "Permissões especiais para a conta do apresentador.",
+    menuCreateProfile: "Criar Perfil",
+    menuAllGrades: "Planilha de Todas as Notas",
+    menuAllSupport: "Todos os Chats de Suporte",
+    menuPublish: "Publicar Aviso",
+    back: "← Voltar",
+    myGradesTitle: "📋 Minhas Notas",
+    myGradesSubtitle: "Seus resultados oficiais de avaliação.",
+    participantLabel: "Participante:",
+    finalGrade: "SUA NOTA FINAL",
+    judgesWho: "Jurados que te avaliaram:",
+    gradeComparison: "Comparação de notas",
+    yourGrade: "Sua nota",
+    classAverage: "Média da turma:",
+    evalScale: "Escala de avaliação:",
+    evalScaleText: "0 – 10 pontos",
+    tapBall: "Toque em uma bola para ver a nota.",
+    gaveYou: "{judge} te deu {grade}",
+    notGraded: "{judge} ainda não te avaliou.",
+    rankingTitle: "🏆 Ranking Oficial",
+    rankingSubtitle: "Participantes ordenados pelas notas finais.",
+    yourPositionPrefix: "SUA POSIÇÃO DE",
+    colPosition: "Posição",
+    colParticipant: "Participante",
+    colGrade: "Nota",
+    you: "Você ({name})",
+    participantN: "Participante {n}",
+    supportTitle: "💬 Central de Suporte",
+    supportSubtitle: "Acha que sua nota foi injusta? Envie uma mensagem para o apresentador.",
+    supportPlaceholder: "Explique sua situação...",
+    sendMessage: "ENVIAR MENSAGEM",
+    noMessages: "Nenhuma mensagem ainda.",
+    writeMessageFirst: "Escreva uma mensagem primeiro.",
+    messageFailed: "Não foi possível enviar a mensagem. Verifique as permissões do Firebase.",
+    allSupportTitle: "💬 Central de Suporte do Apresentador",
+    allSupportSubtitle: "Todas as conversas dos participantes.",
+    replyTo: "Responder a {name}...",
+    sendReply: "ENVIAR RESPOSTA",
+    replyFailed: "Não foi possível enviar a resposta. Verifique as permissões do Firebase.",
+    annTitle: "📢 Avisos",
+    annSubtitle: "Avisos oficiais da equipe de produção.",
+    annPublishTitle: "Publicar um novo aviso",
+    annPlaceholder: "Escreva seu aviso aqui...",
+    annPublishBtn: "PUBLICAR AVISO",
+    noAnnouncements: "Ainda não há avisos.",
+    officialAnnouncement: "Aviso Oficial",
+    production: "Produção",
+    writeAnnFirst: "Escreva um aviso primeiro.",
+    annPublished: "Aviso publicado!",
+    annFailed: "Não foi possível publicar o aviso. Verifique as permissões do Firebase.",
+    onlyHostAnn: "Apenas o apresentador pode publicar avisos.",
+    allGradesTitle: "📊 Planilha Completa de Notas",
+    allGradesSubtitle: "Visão geral das notas dos participantes (somente apresentador).",
+    colAccessCode: "Código de acesso",
+    colJudges: "Jurados",
+    colKauany: "Kauany",
+    colSoy: "Soy",
+    createTitle: "➕ Criar Perfil de Participante",
+    createSubtitle: "Crie uma nova conta de participante. Um código de acesso único será gerado automaticamente.",
+    newNamePlaceholder: "Nome do participante",
+    newGkPlaceholder: "Nota da Kauany (0 - 10)",
+    newGsPlaceholder: "Nota do Soy (0 - 10)",
+    createBtn: "CRIAR CONTA",
+    accountCreated: "✅ Conta criada!",
+    nameLabel: "Nome:",
+    codeLabel: "Código de acesso (senha):",
+    copyCode: "COPIAR CÓDIGO",
+    copied: "COPIADO ✓",
+    copyPrompt: "Copie este código:",
+    kauanyGradeLabel: "Nota da Kauany:",
+    soyGradeLabel: "Nota do Soy:",
+    finalAvgLabel: "Média final (nota deles):",
+    savedOnline: "Salvo online. Este código funciona em qualquer dispositivo.",
+    savedLocal: "Salvo apenas neste dispositivo. O Firebase recusou o salvamento online ({error}). A conta funciona agora neste navegador, mas para funcionar em outros dispositivos você precisa permitir gravações em /gradePortal/support nas regras do Firebase.",
+    onlyHostCreate: "Apenas o apresentador pode criar perfis.",
+    enterName: "Digite o nome do participante.",
+    enterGk: "Digite a nota da Kauany entre 0 e 10.",
+    enterGs: "Digite a nota do Soy entre 0 e 10.",
+    onlyHostSection: "Esta seção é reservada ao apresentador.",
+    footer1: "CONFINAMENTO TOTAL • PORTAL DE PRODUÇÃO",
+    footer2: "🌾 A plataforma oficial de resultados da fazenda"
   },
-  {
-    code:"3d4m9",
-    name:"kauany",
-    grade:9.8,
-    judges:3,
-    role:"participant"
+
+  en: {
+    language: "Language",
+    subtitle: "OFFICIAL PARTICIPANT PORTAL",
+    loginTitle: "Welcome to the Farm",
+    loginSubtitle: "Enter your personal access code to open your account.",
+    accessCodePlaceholder: "Your access code",
+    loginBtn: "ENTER THE PORTAL",
+    loginError: "Incorrect access code. Please try again.",
+    welcome: "Welcome, {name}!",
+    hostDesc: "You are logged in as the official host. You have special permissions.",
+    participantDesc: "Your personal Confinamento Total participant account.",
+    logout: "LOG OUT",
+    menuMyGrades: "My Grades",
+    menuRanking: "Ranking",
+    menuSupport: "Support",
+    menuAnnouncements: "Announcements",
+    hostTitle: "⭐ Host Control Center",
+    hostSubtitle: "Special permissions for the host account.",
+    menuCreateProfile: "Create Profile",
+    menuAllGrades: "All Grades Worksheet",
+    menuAllSupport: "All Support Chats",
+    menuPublish: "Publish Announcement",
+    back: "← Back",
+    myGradesTitle: "📋 My Grades",
+    myGradesSubtitle: "Your official evaluation results.",
+    participantLabel: "Participant:",
+    finalGrade: "YOUR FINAL GRADE",
+    judgesWho: "Judges who graded you:",
+    gradeComparison: "Grade comparison",
+    yourGrade: "Your grade",
+    classAverage: "Class average:",
+    evalScale: "Evaluation scale:",
+    evalScaleText: "0 – 10 points",
+    tapBall: "Tap a ball to see the grade.",
+    gaveYou: "{judge} gave you {grade}",
+    notGraded: "{judge} has not graded you yet.",
+    rankingTitle: "🏆 Official Ranking",
+    rankingSubtitle: "Participants ordered by their final grades.",
+    yourPositionPrefix: "YOUR POSITION OUT OF",
+    colPosition: "Position",
+    colParticipant: "Participant",
+    colGrade: "Grade",
+    you: "You ({name})",
+    participantN: "Participant {n}",
+    supportTitle: "💬 Support Center",
+    supportSubtitle: "Do you believe your grade was unfair? Send a message to the host.",
+    supportPlaceholder: "Explain your situation...",
+    sendMessage: "SEND MESSAGE",
+    noMessages: "No messages yet.",
+    writeMessageFirst: "Write a message first.",
+    messageFailed: "Message could not be sent. Check Firebase permissions.",
+    allSupportTitle: "💬 Host Support Center",
+    allSupportSubtitle: "All participant conversations.",
+    replyTo: "Reply to {name}...",
+    sendReply: "SEND REPLY",
+    replyFailed: "Reply could not be sent. Check Firebase permissions.",
+    annTitle: "📢 Announcements",
+    annSubtitle: "Official notices from the production team.",
+    annPublishTitle: "Publish a new announcement",
+    annPlaceholder: "Write your announcement here...",
+    annPublishBtn: "PUBLISH ANNOUNCEMENT",
+    noAnnouncements: "There are no announcements yet.",
+    officialAnnouncement: "Official Announcement",
+    production: "Production",
+    writeAnnFirst: "Write an announcement first.",
+    annPublished: "Announcement published!",
+    annFailed: "Could not publish the announcement. Check Firebase permissions.",
+    onlyHostAnn: "Only the host can publish announcements.",
+    allGradesTitle: "📊 Complete Grades Worksheet",
+    allGradesSubtitle: "Host-only participant grade overview.",
+    colAccessCode: "Access code",
+    colJudges: "Judges",
+    colKauany: "Kauany",
+    colSoy: "Soy",
+    createTitle: "➕ Create Participant Profile",
+    createSubtitle: "Create a new participant account. A unique access code will be generated automatically.",
+    newNamePlaceholder: "Participant name",
+    newGkPlaceholder: "Kauany's grade (0 - 10)",
+    newGsPlaceholder: "Soy's grade (0 - 10)",
+    createBtn: "CREATE ACCOUNT",
+    accountCreated: "✅ Account created!",
+    nameLabel: "Name:",
+    codeLabel: "Access code (password):",
+    copyCode: "COPY CODE",
+    copied: "COPIED ✓",
+    copyPrompt: "Copy this code:",
+    kauanyGradeLabel: "Kauany's grade:",
+    soyGradeLabel: "Soy's grade:",
+    finalAvgLabel: "Final average (their grade):",
+    savedOnline: "Saved online. This code works on every device.",
+    savedLocal: "Saved on this device only. Firebase refused the online save ({error}). The account works right now on this browser, but to make it work on other devices you must allow writes to /gradePortal/support in your Firebase rules.",
+    onlyHostCreate: "Only the host can create profiles.",
+    enterName: "Enter the participant's name.",
+    enterGk: "Enter Kauany's grade between 0 and 10.",
+    enterGs: "Enter Soy's grade between 0 and 10.",
+    onlyHostSection: "This section is reserved for the host.",
+    footer1: "CONFINAMENTO TOTAL • PRODUCTION PORTAL",
+    footer2: "🌾 The official farm results platform"
   },
-  {
-    code:"5x9d8",
-    name:"joaozinho",
-    grade:6.7,
-    judges:1,
-    role:"participant"
-  },
-  {
-    code:"4k1l3",
-    name:"kauany host",
-    grade:null,
-    judges:null,
-    role:"host"
+
+  es: {
+    language: "Idioma",
+    subtitle: "PORTAL OFICIAL DEL PARTICIPANTE",
+    loginTitle: "Bienvenido a la Granja",
+    loginSubtitle: "Ingresa tu código de acceso personal para abrir tu cuenta.",
+    accessCodePlaceholder: "Tu código de acceso",
+    loginBtn: "ENTRAR AL PORTAL",
+    loginError: "Código de acceso incorrecto. Inténtalo de nuevo.",
+    welcome: "¡Bienvenido, {name}!",
+    hostDesc: "Has iniciado sesión como el presentador oficial. Tienes permisos especiales.",
+    participantDesc: "Tu cuenta personal de participante de Confinamento Total.",
+    logout: "CERRAR SESIÓN",
+    menuMyGrades: "Mis Notas",
+    menuRanking: "Clasificación",
+    menuSupport: "Soporte",
+    menuAnnouncements: "Anuncios",
+    hostTitle: "⭐ Centro de Control del Presentador",
+    hostSubtitle: "Permisos especiales para la cuenta del presentador.",
+    menuCreateProfile: "Crear Perfil",
+    menuAllGrades: "Hoja de Todas las Notas",
+    menuAllSupport: "Todos los Chats de Soporte",
+    menuPublish: "Publicar Anuncio",
+    back: "← Volver",
+    myGradesTitle: "📋 Mis Notas",
+    myGradesSubtitle: "Tus resultados oficiales de evaluación.",
+    participantLabel: "Participante:",
+    finalGrade: "TU NOTA FINAL",
+    judgesWho: "Jueces que te calificaron:",
+    gradeComparison: "Comparación de notas",
+    yourGrade: "Tu nota",
+    classAverage: "Promedio de la clase:",
+    evalScale: "Escala de evaluación:",
+    evalScaleText: "0 – 10 puntos",
+    tapBall: "Toca una bola para ver la nota.",
+    gaveYou: "{judge} te dio {grade}",
+    notGraded: "{judge} todavía no te calificó.",
+    rankingTitle: "🏆 Clasificación Oficial",
+    rankingSubtitle: "Participantes ordenados por sus notas finales.",
+    yourPositionPrefix: "TU POSICIÓN DE",
+    colPosition: "Posición",
+    colParticipant: "Participante",
+    colGrade: "Nota",
+    you: "Tú ({name})",
+    participantN: "Participante {n}",
+    supportTitle: "💬 Centro de Soporte",
+    supportSubtitle: "¿Crees que tu nota fue injusta? Envía un mensaje al presentador.",
+    supportPlaceholder: "Explica tu situación...",
+    sendMessage: "ENVIAR MENSAJE",
+    noMessages: "Aún no hay mensajes.",
+    writeMessageFirst: "Escribe un mensaje primero.",
+    messageFailed: "No se pudo enviar el mensaje. Verifica los permisos de Firebase.",
+    allSupportTitle: "💬 Centro de Soporte del Presentador",
+    allSupportSubtitle: "Todas las conversaciones de los participantes.",
+    replyTo: "Responder a {name}...",
+    sendReply: "ENVIAR RESPUESTA",
+    replyFailed: "No se pudo enviar la respuesta. Verifica los permisos de Firebase.",
+    annTitle: "📢 Anuncios",
+    annSubtitle: "Avisos oficiales del equipo de producción.",
+    annPublishTitle: "Publicar un nuevo anuncio",
+    annPlaceholder: "Escribe tu anuncio aquí...",
+    annPublishBtn: "PUBLICAR ANUNCIO",
+    noAnnouncements: "Aún no hay anuncios.",
+    officialAnnouncement: "Anuncio Oficial",
+    production: "Producción",
+    writeAnnFirst: "Escribe un anuncio primero.",
+    annPublished: "¡Anuncio publicado!",
+    annFailed: "No se pudo publicar el anuncio. Verifica los permisos de Firebase.",
+    onlyHostAnn: "Solo el presentador puede publicar anuncios.",
+    allGradesTitle: "📊 Hoja Completa de Notas",
+    allGradesSubtitle: "Resumen de notas de los participantes (solo presentador).",
+    colAccessCode: "Código de acceso",
+    colJudges: "Jueces",
+    colKauany: "Kauany",
+    colSoy: "Soy",
+    createTitle: "➕ Crear Perfil de Participante",
+    createSubtitle: "Crea una nueva cuenta de participante. Se generará automáticamente un código de acceso único.",
+    newNamePlaceholder: "Nombre del participante",
+    newGkPlaceholder: "Nota de Kauany (0 - 10)",
+    newGsPlaceholder: "Nota de Soy (0 - 10)",
+    createBtn: "CREAR CUENTA",
+    accountCreated: "✅ ¡Cuenta creada!",
+    nameLabel: "Nombre:",
+    codeLabel: "Código de acceso (contraseña):",
+    copyCode: "COPIAR CÓDIGO",
+    copied: "COPIADO ✓",
+    copyPrompt: "Copia este código:",
+    kauanyGradeLabel: "Nota de Kauany:",
+    soyGradeLabel: "Nota de Soy:",
+    finalAvgLabel: "Promedio final (su nota):",
+    savedOnline: "Guardado en línea. Este código funciona en cualquier dispositivo.",
+    savedLocal: "Guardado solo en este dispositivo. Firebase rechazó el guardado en línea ({error}). La cuenta funciona ahora en este navegador, pero para que funcione en otros dispositivos debes permitir escrituras en /gradePortal/support en las reglas de Firebase.",
+    onlyHostCreate: "Solo el presentador puede crear perfiles.",
+    enterName: "Ingresa el nombre del participante.",
+    enterGk: "Ingresa la nota de Kauany entre 0 y 10.",
+    enterGs: "Ingresa la nota de Soy entre 0 y 10.",
+    onlyHostSection: "Esta sección está reservada para el presentador.",
+    footer1: "CONFINAMENTO TOTAL • PORTAL DE PRODUCCIÓN",
+    footer2: "🌾 La plataforma oficial de resultados de la granja"
   }
-];
+};
 
-const AVERAGE = participants
-  .filter(p => p.role === "participant")
-  .reduce((sum,p) => sum + p.grade,0) /
-  participants.filter(p => p.role === "participant").length;
+const localeMap = { pt: "pt-BR", en: "en-US", es: "es-ES" };
 
-let currentUser = null;
+let currentLang = "pt";
+try {
+  const savedLang = localStorage.getItem("ct_lang");
+  if (savedLang && translations[savedLang]) currentLang = savedLang;
+} catch (e) { /* ignore */ }
 
-function getData(key, fallback) {
-  try {
-    const saved = localStorage.getItem(key);
-    return saved ? JSON.parse(saved) : fallback;
-  } catch {
-    return fallback;
+function t(key, params) {
+  const dict = translations[currentLang] || translations.pt;
+  let str = dict[key];
+  if (str === undefined) str = translations.pt[key];
+  if (str === undefined) return key;
+
+  if (params) {
+    Object.keys(params).forEach(k => {
+      str = str.split("{" + k + "}").join(params[k]);
+    });
+  }
+  return str;
+}
+
+function applyTranslations() {
+  document.documentElement.lang = currentLang === "pt" ? "pt-BR" : currentLang;
+
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    el.textContent = t(el.getAttribute("data-i18n"));
+  });
+
+  document.querySelectorAll("[data-i18n-ph]").forEach(el => {
+    el.setAttribute("placeholder", t(el.getAttribute("data-i18n-ph")));
+  });
+
+  const sel = document.getElementById("langSelect");
+  if (sel) sel.value = currentLang;
+}
+
+function setLanguage(lang) {
+  if (!translations[lang]) return;
+  currentLang = lang;
+
+  try { localStorage.setItem("ct_lang", lang); } catch (e) { /* ignore */ }
+
+  applyTranslations();
+
+  if (currentUser) {
+    document.getElementById("welcomeTitle").textContent =
+      t("welcome", { name: currentUser.name });
+
+    document.getElementById("accountDescription").textContent =
+      currentUser.role === "host" ? t("hostDesc") : t("participantDesc");
+
+    renderRanking();
+    renderAnnouncements();
+    renderAllGrades();
+    renderAllSupport();
+
+    if (currentUser.role === "participant") renderGrades();
+
+    const result = document.getElementById("createResult");
+    if (result && !result.classList.contains("hidden") && lastCreateResult) {
+      showCreateResult(
+        lastCreateResult.participant,
+        lastCreateResult.avg,
+        lastCreateResult.status,
+        lastCreateResult.errorMessage
+      );
+    }
   }
 }
 
-function saveData(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
+/* ==========================================
+   PARTICIPANT DATABASE
+========================================== */
+
+const defaultParticipants = {
+  "2k8s5": { code:"2k8s5", name:"soy maserati", gradeKauany:4.0, gradeSoy:4.0, role:"participant" },
+  "3d4m9": { code:"3d4m9", name:"kauany", gradeKauany:9.8, gradeSoy:9.8, role:"participant" },
+  "5x9d8": { code:"5x9d8", name:"joaozinho", gradeKauany:6.7, gradeSoy:6.7, role:"participant" },
+  "4k1l3": { code:"4k1l3", name:"kauany host", role:"host" }
+};
+
+let remoteAccounts = {};
+let localAccounts = loadLocalAccounts();
+let participantsMap = { ...defaultParticipants };
+
+let currentUser = null;
+let currentUserCode = null;
+
+let announcements = [];
+let supportData = {};
+
+let lastCreateResult = null;
+
+function loadLocalAccounts() {
+  try {
+    return JSON.parse(localStorage.getItem("ct_local_accounts") || "{}") || {};
+  } catch (e) {
+    return {};
+  }
+}
+
+function saveLocalAccount(code, participant) {
+  try {
+    const all = loadLocalAccounts();
+    all[code] = participant;
+    localStorage.setItem("ct_local_accounts", JSON.stringify(all));
+    localAccounts = all;
+  } catch (e) {
+    console.warn("Local save failed", e);
+  }
+}
+
+function rebuildParticipants() {
+  participantsMap = {
+    ...defaultParticipants,
+    ...localAccounts,
+    ...remoteAccounts
+  };
+}
+
+function participantList() {
+  return Object.values(participantsMap).filter(p => p.role === "participant");
+}
+
+function getGrade(p) {
+  const grades = [];
+  if (typeof p.gradeKauany === "number") grades.push(p.gradeKauany);
+  if (typeof p.gradeSoy === "number") grades.push(p.gradeSoy);
+  if (!grades.length) return 0;
+  return grades.reduce((a, b) => a + b, 0) / grades.length;
+}
+
+function getJudges(p) {
+  let n = 0;
+  if (typeof p.gradeKauany === "number") n++;
+  if (typeof p.gradeSoy === "number") n++;
+  return n;
+}
+
+function getAverage() {
+  const list = participantList();
+  if (!list.length) return 0;
+  return list.reduce((sum, p) => sum + getGrade(p), 0) / list.length;
+}
+
+function refreshCurrentUser() {
+  if (currentUserCode && participantsMap[currentUserCode]) {
+    currentUser = participantsMap[currentUserCode];
+  }
 }
 
 /* ==========================================
    LOGIN
 ========================================== */
 
-function login() {
+async function login() {
+  const errEl = document.getElementById("loginError");
   const code = document.getElementById("accessCode").value.trim().toLowerCase();
-  const user = participants.find(p => p.code === code);
+
+  if (!accountsLoaded) {
+    await Promise.race([
+      accountsReady,
+      new Promise(resolve => setTimeout(resolve, 2500))
+    ]);
+  }
+
+  const user = participantsMap[code];
 
   if (!user) {
-    document.getElementById("loginError").textContent =
-      "Incorrect access code. Please try again.";
+    errEl.textContent = t("loginError");
     return;
   }
 
   currentUser = user;
+  currentUserCode = code;
 
   document.getElementById("loginScreen").classList.add("hidden");
   document.getElementById("dashboard").classList.remove("hidden");
 
   document.getElementById("welcomeTitle").textContent =
-    "Welcome, " + user.name + "!";
+    t("welcome", { name: user.name });
 
   document.getElementById("accountDescription").textContent =
-    user.role === "host"
-      ? "You are logged in as the official host. You have special permissions."
-      : "Your personal Confinamento Total participant account.";
+    user.role === "host" ? t("hostDesc") : t("participantDesc");
 
   document.getElementById("hostMenu").classList.toggle(
     "hidden", user.role !== "host"
@@ -538,6 +1162,7 @@ function login() {
 
 function logout() {
   currentUser = null;
+  currentUserCode = null;
   document.getElementById("dashboard").classList.add("hidden");
   document.getElementById("loginScreen").classList.remove("hidden");
   document.getElementById("accessCode").value = "";
@@ -555,22 +1180,24 @@ const pageIds = [
   "supportPage",
   "announcementsPage",
   "allGradesPage",
-  "allSupportPage"
+  "allSupportPage",
+  "createProfilePage"
 ];
 
 function hideAllPages() {
-  pageIds.forEach(id =>
-    document.getElementById(id).classList.add("hidden")
-  );
+  pageIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.add("hidden");
+  });
 }
 
 function showPage(id) {
   if (!currentUser) return;
 
-  const hostOnly = ["allGradesPage","allSupportPage"];
+  const hostOnly = ["allGradesPage", "allSupportPage", "createProfilePage"];
 
   if (hostOnly.includes(id) && currentUser.role !== "host") {
-    alert("This section is reserved for the host.");
+    alert(t("onlyHostSection"));
     return;
   }
 
@@ -583,6 +1210,7 @@ function showPage(id) {
   if (id === "announcementsPage") renderAnnouncements();
   if (id === "allGradesPage") renderAllGrades();
   if (id === "allSupportPage") renderAllSupport();
+  if (id === "createProfilePage") resetCreateForm();
 }
 
 function goHome() {
@@ -597,32 +1225,55 @@ function renderGrades() {
   if (!currentUser || currentUser.role !== "participant") return;
 
   document.getElementById("gradeName").textContent = currentUser.name;
-  document.getElementById("myGrade").textContent =
-    currentUser.grade.toFixed(1);
 
-  document.getElementById("judgeCount").textContent =
-    currentUser.judges + " / 3";
+  const grade = getGrade(currentUser);
+  document.getElementById("myGrade").textContent = grade.toFixed(1);
+
+  const judges = getJudges(currentUser);
+  document.getElementById("judgeCount").textContent = judges + " / 2";
 
   const balls = document.getElementById("judgeBalls");
   balls.innerHTML = "";
 
-  for (let i=0; i<3; i++) {
+  const judgeDefs = [
+    { key: "gradeKauany", label: "Kauany" },
+    { key: "gradeSoy", label: "Soy" }
+  ];
+
+  judgeDefs.forEach(def => {
+    const value = currentUser[def.key];
+
     const ball = document.createElement("div");
-    ball.className = "ball " + (i < currentUser.judges ? "good" : "bad");
-    ball.title = i < currentUser.judges
-      ? "Good grade"
-      : "Did not give a good grade";
+    let cls = "ball";
+
+    if (typeof value === "number") {
+      cls += value >= 5 ? " good" : " bad";
+    } else {
+      cls += " none";
+    }
+
+    ball.className = cls;
+    ball.title = typeof value === "number"
+      ? t("gaveYou", { judge: def.label, grade: value.toFixed(1) })
+      : t("notGraded", { judge: def.label });
+
+    ball.onclick = () => {
+      document.getElementById("judgeInfo").textContent =
+        typeof value === "number"
+          ? t("gaveYou", { judge: def.label, grade: value.toFixed(1) })
+          : t("notGraded", { judge: def.label });
+    };
+
     balls.appendChild(ball);
-  }
+  });
 
-  document.getElementById("myBar").style.width =
-    (currentUser.grade * 10) + "%";
+  document.getElementById("judgeInfo").textContent = t("tapBall");
 
-  document.getElementById("averageText").textContent =
-    AVERAGE.toFixed(2) + " / 10";
+  document.getElementById("myBar").style.width = (grade * 10) + "%";
 
-  document.getElementById("averageBar").style.width =
-    (AVERAGE * 10) + "%";
+  const avg = getAverage();
+  document.getElementById("averageText").textContent = avg.toFixed(2) + " / 10";
+  document.getElementById("averageBar").style.width = (avg * 10) + "%";
 }
 
 /* ==========================================
@@ -630,26 +1281,49 @@ function renderGrades() {
 ========================================== */
 
 function renderRanking() {
-  const list = participants
-    .filter(p => p.role === "participant")
+  const list = participantList()
     .slice()
-    .sort((a,b) => b.grade - a.grade);
+    .sort((a, b) => getGrade(b) - getGrade(a));
 
   const tbody = document.getElementById("rankingTable");
   tbody.innerHTML = "";
 
-  list.forEach((p,index) => {
+  const isHost = currentUser && currentUser.role === "host";
+
+  list.forEach((p, index) => {
     const tr = document.createElement("tr");
-    const position = ["🥇","🥈","🥉"][index] || (index+1);
+    const position = ["🥇", "🥈", "🥉"][index] || (index + 1);
+
+    let nameCell;
+
+    if (isHost) {
+      nameCell = escapeHTML(p.name);
+    } else if (currentUser && p.code === currentUser.code) {
+      nameCell = t("you", { name: escapeHTML(p.name) });
+    } else {
+      nameCell = t("participantN", { n: index + 1 });
+    }
 
     tr.innerHTML = `
       <td>${position}</td>
-      <td>${escapeHTML(p.name)}</td>
-      <td><strong>${p.grade.toFixed(1)}</strong></td>
+      <td>${nameCell}</td>
+      <td><strong>${getGrade(p).toFixed(1)}</strong></td>
     `;
 
     tbody.appendChild(tr);
   });
+
+  const banner = document.getElementById("myPosition");
+
+  if (!isHost && currentUser) {
+    const idx = list.findIndex(p => p.code === currentUser.code);
+    banner.classList.remove("hidden");
+    document.getElementById("myPositionNumber").textContent =
+      idx >= 0 ? "#" + (idx + 1) : "—";
+    document.getElementById("myPositionTotal").textContent = list.length;
+  } else {
+    banner.classList.add("hidden");
+  }
 }
 
 /* ==========================================
@@ -660,429 +1334,218 @@ function renderAllGrades() {
   if (!currentUser || currentUser.role !== "host") return;
 
   const tbody = document.getElementById("allGradesTable");
+  if (!tbody) return;
   tbody.innerHTML = "";
 
-  participants
-    .filter(p => p.role === "participant")
-    .forEach(p => {
-      const tr = document.createElement("tr");
+  participantList().forEach(p => {
+    const tr = document.createElement("tr");
 
-      tr.innerHTML = `
-        <td>${escapeHTML(p.name)}</td>
-        <td>${escapeHTML(p.code)}</td>
-        <td>${p.grade.toFixed(1)}</td>
-        <td>${p.judges}/3</td>
-      `;
+    tr.innerHTML = `
+      <td>${escapeHTML(p.name)}</td>
+      <td>${escapeHTML(p.code)}</td>
+      <td>${getGrade(p).toFixed(1)}</td>
+      <td>${getJudges(p)}/2</td>
+      <td>${typeof p.gradeKauany === "number" ? p.gradeKauany.toFixed(1) : "-"}</td>
+      <td>${typeof p.gradeSoy === "number" ? p.gradeSoy.toFixed(1) : "-"}</td>
+    `;
 
-      tbody.appendChild(tr);
+    tbody.appendChild(tr);
+  });
+}
+
+/* ==========================================
+   HOST: CREATE PROFILE
+========================================== */
+
+function generateCode() {
+  const digits = "0123456789";
+  const letters = "abcdefghijklmnopqrstuvwxyz";
+  let code;
+  let attempts = 0;
+
+  do {
+    code =
+      digits[Math.floor(Math.random() * 10)] +
+      letters[Math.floor(Math.random() * 26)] +
+      digits[Math.floor(Math.random() * 10)] +
+      letters[Math.floor(Math.random() * 26)] +
+      digits[Math.floor(Math.random() * 10)];
+    attempts++;
+  } while (participantsMap[code] && attempts < 2000);
+
+  return code;
+}
+
+function resetCreateForm() {
+  document.getElementById("newName").value = "";
+  document.getElementById("newGradeKauany").value = "";
+  document.getElementById("newGradeSoy").value = "";
+  const result = document.getElementById("createResult");
+  result.classList.add("hidden");
+  result.innerHTML = "";
+  lastCreateResult = null;
+}
+
+function showCreateResult(participant, avg, status, errorMessage) {
+  lastCreateResult = { participant, avg, status, errorMessage };
+
+  const result = document.getElementById("createResult");
+  result.classList.remove("hidden");
+  result.innerHTML = "";
+
+  const card = document.createElement("div");
+  card.className = "created-card";
+
+  const h3 = document.createElement("h3");
+  h3.textContent = t("accountCreated");
+  card.appendChild(h3);
+
+  const nameP = document.createElement("p");
+  const nameStrong = document.createElement("strong");
+  nameStrong.textContent = t("nameLabel") + " ";
+  nameP.appendChild(nameStrong);
+  nameP.appendChild(document.createTextNode(participant.name));
+  card.appendChild(nameP);
+
+  const codeLabel = document.createElement("p");
+  const codeStrong = document.createElement("strong");
+  codeStrong.textContent = t("codeLabel");
+  codeLabel.appendChild(codeStrong);
+  card.appendChild(codeLabel);
+
+  const codeBox = document.createElement("div");
+  codeBox.className = "code-display";
+  codeBox.textContent = participant.code;
+  card.appendChild(codeBox);
+
+  const copyBtn = document.createElement("button");
+  copyBtn.className = "primary";
+  copyBtn.textContent = t("copyCode");
+  copyBtn.onclick = () => {
+    const done = () => {
+      copyBtn.textContent = t("copied");
+      setTimeout(() => { copyBtn.textContent = t("copyCode"); }, 1500);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(participant.code).then(done).catch(() => {
+        window.prompt(t("copyPrompt"), participant.code);
+      });
+    } else {
+      window.prompt(t("copyPrompt"), participant.code);
+    }
+  };
+  card.appendChild(copyBtn);
+
+  const gkP = document.createElement("p");
+  gkP.innerHTML = "<strong>" + escapeHTML(t("kauanyGradeLabel")) + "</strong> " +
+    participant.gradeKauany.toFixed(1);
+  card.appendChild(gkP);
+
+  const gsP = document.createElement("p");
+  gsP.innerHTML = "<strong>" + escapeHTML(t("soyGradeLabel")) + "</strong> " +
+    participant.gradeSoy.toFixed(1);
+  card.appendChild(gsP);
+
+  const avgP = document.createElement("p");
+  avgP.innerHTML = "<strong>" + escapeHTML(t("finalAvgLabel")) + "</strong> " +
+    avg.toFixed(1);
+  card.appendChild(avgP);
+
+  if (status === "ok") {
+    const okP = document.createElement("p");
+    okP.style.fontSize = "13px";
+    okP.style.color = "#4a6b4a";
+    okP.textContent = t("savedOnline");
+    card.appendChild(okP);
+  } else if (status === "local") {
+    const warn = document.createElement("div");
+    warn.className = "warn-box";
+    warn.textContent = t("savedLocal", {
+      error: errorMessage || "permission denied"
     });
+    card.appendChild(warn);
+  }
+
+  result.appendChild(card);
+}
+
+async function createProfile() {
+  if (!currentUser || currentUser.role !== "host") {
+    alert(t("onlyHostCreate"));
+    return;
+  }
+
+  const name = document.getElementById("newName").value.trim();
+  const gk = parseFloat(document.getElementById("newGradeKauany").value);
+  const gs = parseFloat(document.getElementById("newGradeSoy").value);
+
+  if (!name) {
+    alert(t("enterName"));
+    return;
+  }
+
+  if (isNaN(gk) || gk < 0 || gk > 10) {
+    alert(t("enterGk"));
+    return;
+  }
+
+  if (isNaN(gs) || gs < 0 || gs > 10) {
+    alert(t("enterGs"));
+    return;
+  }
+
+  const code = generateCode();
+  const avg = (gk + gs) / 2;
+
+  const participant = {
+    code: code,
+    name: name,
+    gradeKauany: gk,
+    gradeSoy: gs,
+    role: "participant",
+    createdAt: Date.now()
+  };
+
+  /* Show the code IMMEDIATELY, before any network call. */
+  showCreateResult(participant, avg, "saving", "");
+
+  document.getElementById("newName").value = "";
+  document.getElementById("newGradeKauany").value = "";
+  document.getElementById("newGradeSoy").value = "";
+
+  /* Always keep a local copy so the account exists no matter what. */
+  saveLocalAccount(code, participant);
+  rebuildParticipants();
+  renderAllGrades();
+  renderRanking();
+
+  let status = "local";
+  let errorMessage = "";
+
+  try {
+    await set(ref(db, ACCOUNTS_PATH + "/" + code), participant);
+    status = "ok";
+  } catch (error) {
+    console.error("Account save failed:", error);
+    errorMessage = (error && (error.message || error.code)) || "permission denied";
+  }
+
+  showCreateResult(participant, avg, status, errorMessage);
 }
 
 /* ==========================================
    SUPPORT CHAT
 ========================================== */
 
-function supportKey(code) {
-  return "ct_support_" + code;
-}
-
-function renderMySupport() {
-  if (!currentUser || currentUser.role !== "participant") return;
-
-  const messages = getData(supportKey(currentUser.code), []);
-  const box = document.getElementById("myChat");
-  box.innerHTML = "";
-
-  if (messages.length === 0) {
-    box.textContent = "No messages yet. You can start a conversation below.";
-    return;
-  }
-
-  messages.forEach(m => {
-    const div = document.createElement("div");
-    div.className = "chat-message" + (m.from === "Host" ? " host" : "");
-
-    const small = document.createElement("small");
-    small.textContent = m.from + " • " + m.date;
-
-    const content = document.createElement("div");
-    content.textContent = m.text;
-
-    div.append(small,content);
-    box.appendChild(div);
-  });
-
-  box.scrollTop = box.scrollHeight;
-}
-
-function sendSupport() {
-  if (!currentUser || currentUser.role !== "participant") return;
-
-  const input = document.getElementById("supportInput");
-  const message = input.value.trim();
-
-  if (!message) {
-    alert("Write a message first.");
-    return;
-  }
-
-  const messages = getData(supportKey(currentUser.code), []);
-
-  messages.push({
-    from:currentUser.name,
-    text:message,
-    date:new Date().toLocaleString()
-  });
-
-  saveData(supportKey(currentUser.code),messages);
-  input.value = "";
-  renderMySupport();
-}
-
-/* ==========================================
-   HOST: ALL SUPPORT CONVERSATIONS
-========================================== */
-
-function renderAllSupport() {
-  if (!currentUser || currentUser.role !== "host") return;
-
-  const container = document.getElementById("supportConversations");
-  container.innerHTML = "";
-
-  participants
-    .filter(p => p.role === "participant")
-    .forEach(p => {
-      const messages = getData(supportKey(p.code), []);
-
-      const section = document.createElement("div");
-      section.className = "stat";
-
-      const title = document.createElement("h3");
-      title.textContent = p.name;
-
-      const box = document.createElement("div");
-      box.className = "support-box";
-
-      if (!messages.length) {
-        box.textContent = "No messages from this participant yet.";
-      }
-
-      messages.forEach(m => {
-        const div = document.createElement("div");
-        div.className = "chat-message" + (m.from === "Host" ? " host" : "");
-
-        const small = document.createElement("small");
-        small.textContent = m.from + " • " + m.date;
-
-        const content = document.createElement("div");
-        content.textContent = m.text;
-
-        div.append(small,content);
-        box.appendChild(div);
-      });
-
-      const reply = document.createElement("textarea");
-      reply.placeholder = "Reply to " + p.name + "...";
-
-      const send = document.createElement("button");
-      send.className = "primary";
-      send.textContent = "SEND REPLY";
-
-      send.onclick = () => {
-        const message = reply.value.trim();
-        if (!message) return;
-
-        const updated = getData(supportKey(p.code), []);
-
-        updated.push({
-          from:"Host",
-          text:message,
-          date:new Date().toLocaleString()
-        });
-
-        saveData(supportKey(p.code),updated);
-        renderAllSupport();
-      };
-
-      section.append(title,box,reply,send);
-      container.appendChild(section);
-    });
-}
-
-/* ==========================================
-   ANNOUNCEMENTS
-========================================== */
-
-function renderAnnouncements() {
-  const announcements = getData("ct_announcements", []);
-  const container = document.getElementById("announcementList");
-  const editor = document.getElementById("announcementEditor");
-
-  container.innerHTML = "";
-  editor.classList.toggle(
-    "hidden",
-    !currentUser || currentUser.role !== "host"
-  );
-
-  if (!announcements.length) {
-    container.textContent = "There are no announcements yet.";
-    return;
-  }
-
-  announcements.slice().reverse().forEach(a => {
-    const div = document.createElement("div");
-    div.className = "announcement";
-
-    const title = document.createElement("strong");
-    title.textContent = a.title || "Official Announcement";
-
-    const content = document.createElement("div");
-    content.textContent = a.text;
-
-    const small = document.createElement("small");
-    small.textContent = "Production • " + a.date;
-
-    div.append(title,content,small);
-    container.appendChild(div);
-  });
-}
-
-function publishAnnouncement() {
-  if (!currentUser || currentUser.role !== "host") {
-    alert("Only the host can publish announcements.");
-    return;
-  }
-
-  const input = document.getElementById("announcementInput");
-  const message = input.value.trim();
-
-  if (!message) {
-    alert("Write an announcement first.");
-    return;
-  }
-
-  const announcements = getData("ct_announcements", []);
-
-  announcements.push({
-    title:"Official Announcement",
-    text:message,
-    date:new Date().toLocaleString()
-  });
-
-  saveData("ct_announcements",announcements);
-
-  input.value = "";
-  renderAnnouncements();
-  alert("Announcement published!");
-}
-
-/* ==========================================
-   SECURITY / TEXT DISPLAY HELPER
-========================================== */
-
-function escapeHTML(value) {
-  return String(value).replace(/[&<>"']/g, char => ({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#039;"
-  })[char]);
-}
-</script>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-
-import {
-  getDatabase,
-  ref,
-  push,
-  set,
-  onValue
-} from "https://www.gstatic.com/firebasejs/12.9.0/firebase-database.js";
-
-/* ==========================================
-   FIREBASE CONNECTION
-   Separate from your voting system.
-========================================== */
-
-const firebaseConfig = {
-  apiKey: "AIzaSyC8PSXTyOxn_kgyFzpn-Qw3EGUXdS7BGOo",
-  authDomain: "feature-8e659.firebaseapp.com",
-  databaseURL: "https://feature-8e659-default-rtdb.firebaseio.com",
-  projectId: "feature-8e659",
-  storageBucket: "feature-8e659.firebasestorage.app",
-  messagingSenderId: "755676249847",
-  appId: "1:755676249847:web:2a01bda6f99d6e32b7ddf2",
-  measurementId: "G-LN21J71XEV"
-};
-
-const app = initializeApp(firebaseConfig, "CTGradePortal");
-const db = getDatabase(app);
-
-const announcementsRef = ref(db, "gradePortal/announcements");
-const supportRef = ref(db, "gradePortal/support");
-
-let announcements = [];
-let supportData = {};
-let activeCode = null;
-
-const participants = [
-  { code: "2k8s5", name: "soy maserati" },
-  { code: "3d4m9", name: "kauany" },
-  { code: "5x9d8", name: "joaozinho" }
-];
-
-function isHost() {
-  return activeCode === "4k1l3";
-}
-
-function safeText(element, text) {
-  element.textContent = text;
-}
-
-/* ==========================================
-   KEEP YOUR ORIGINAL LOGIN
-   This only detects which account logged in.
-========================================== */
-
-const originalLogin = window.login;
-
-window.login = function() {
-  const code = document.getElementById("accessCode").value.trim().toLowerCase();
-
-  originalLogin();
-
-  const dashboard = document.getElementById("dashboard");
-
-  if (!dashboard.classList.contains("hidden")) {
-    activeCode = code;
-    window.renderMySupport();
-    window.renderAllSupport();
-    window.renderAnnouncements();
-  }
-};
-
-const originalLogout = window.logout;
-
-window.logout = function() {
-  originalLogout();
-  activeCode = null;
-};
-
-/* ==========================================
-   LIVE ANNOUNCEMENTS
-========================================== */
-
-onValue(announcementsRef, snapshot => {
-  announcements = [];
-
-  if (snapshot.exists()) {
-    snapshot.forEach(child => {
-      announcements.push({
-        id: child.key,
-        ...child.val()
-      });
-    });
-  }
-
-  announcements.sort((a, b) =>
-    (b.timestamp || 0) - (a.timestamp || 0)
-  );
-
-  window.renderAnnouncements();
-}, error => {
-  console.error("Announcements error:", error);
-});
-
-window.renderAnnouncements = function() {
-  const container = document.getElementById("announcementList");
-  const editor = document.getElementById("announcementEditor");
-
-  if (!container || !editor) return;
-
-  container.innerHTML = "";
-
-  editor.classList.toggle("hidden", !isHost());
-
-  if (!announcements.length) {
-    container.textContent = "There are no announcements yet.";
-    return;
-  }
-
-  announcements.forEach(a => {
-    const div = document.createElement("div");
-    div.className = "announcement";
-
-    const title = document.createElement("strong");
-    title.textContent = a.title || "Official Announcement";
-
-    const content = document.createElement("div");
-    content.textContent = a.text || "";
-
-    const small = document.createElement("small");
-    small.textContent = "Production • " + (a.date || "");
-
-    div.append(title, content, small);
-    container.appendChild(div);
-  });
-};
-
-window.publishAnnouncement = async function() {
-  if (!isHost()) {
-    alert("Only the host can publish announcements.");
-    return;
-  }
-
-  const input = document.getElementById("announcementInput");
-  const message = input.value.trim();
-
-  if (!message) {
-    alert("Write an announcement first.");
-    return;
-  }
-
-  try {
-    const newAnnouncement = push(announcementsRef);
-
-    await set(newAnnouncement, {
-      title: "Official Announcement",
-      text: message,
-      date: new Date().toLocaleString(),
-      timestamp: Date.now(),
-      author: "Kauany Host"
-    });
-
-    input.value = "";
-    alert("Announcement published!");
-  } catch (error) {
-    console.error(error);
-    alert("Could not publish the announcement. Check Firebase permissions.");
-  }
-};
-
-/* ==========================================
-   LIVE SUPPORT DATABASE
-========================================== */
-
-onValue(supportRef, snapshot => {
-  supportData = snapshot.exists() ? snapshot.val() : {};
-
-  window.renderMySupport();
-  window.renderAllSupport();
-}, error => {
-  console.error("Support error:", error);
-});
-
 function renderMessages(box, messages) {
   box.innerHTML = "";
 
   const list = Object.values(messages || {})
+    .filter(m => m && typeof m === "object" && m.text !== undefined)
     .sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
 
   if (!list.length) {
-    box.textContent = "No messages yet.";
+    box.textContent = t("noMessages");
     return;
   }
 
@@ -1107,58 +1570,58 @@ function renderMessages(box, messages) {
   box.scrollTop = box.scrollHeight;
 }
 
-window.renderMySupport = function() {
-  if (!activeCode || isHost()) return;
+function renderMySupport() {
+  if (!currentUser || currentUser.role !== "participant") return;
 
   const box = document.getElementById("myChat");
   if (!box) return;
 
-  renderMessages(box, supportData[activeCode]);
-};
+  renderMessages(box, supportData[currentUser.code]);
+}
 
-window.sendSupport = async function() {
-  if (!activeCode || isHost()) return;
+async function sendSupport() {
+  if (!currentUser || currentUser.role !== "participant") return;
 
   const input = document.getElementById("supportInput");
   const message = input.value.trim();
 
   if (!message) {
-    alert("Write a message first.");
+    alert(t("writeMessageFirst"));
     return;
   }
 
   try {
-    const messagesRef = ref(db, "gradePortal/support/" + activeCode);
+    const messagesRef = ref(db, "gradePortal/support/" + currentUser.code);
     const newMessage = push(messagesRef);
 
     await set(newMessage, {
-      from: participants.find(p => p.code === activeCode)?.name || "Participant",
+      from: currentUser.name,
       senderRole: "participant",
       text: message,
-      date: new Date().toLocaleString(),
+      date: new Date().toLocaleString(localeMap[currentLang] || "pt-BR"),
       timestamp: Date.now()
     });
 
     input.value = "";
   } catch (error) {
     console.error(error);
-    alert("Message could not be sent. Check Firebase permissions.");
+    alert(t("messageFailed"));
   }
-};
+}
 
 /* ==========================================
    HOST: ALL SUPPORT CONVERSATIONS
 ========================================== */
 
-window.renderAllSupport = function() {
-  if (!isHost()) return;
+function renderAllSupport() {
+  if (!currentUser || currentUser.role !== "host") return;
 
   const container = document.getElementById("supportConversations");
   if (!container) return;
 
   container.innerHTML = "";
 
-  participants.forEach(participant => {
+  participantList().forEach(participant => {
     const section = document.createElement("div");
     section.className = "stat";
 
@@ -1171,51 +1634,224 @@ window.renderAllSupport = function() {
     renderMessages(box, supportData[participant.code]);
 
     const reply = document.createElement("textarea");
-    reply.placeholder = "Reply to " + participant.name + "...";
+    reply.placeholder = t("replyTo", { name: participant.name });
 
     const send = document.createElement("button");
     send.className = "primary";
-    send.textContent = "SEND REPLY";
+    send.textContent = t("sendReply");
 
     send.onclick = async () => {
       const message = reply.value.trim();
       if (!message) return;
 
       try {
-        const messagesRef = ref(
-          db,
-          "gradePortal/support/" + participant.code
-        );
-
+        const messagesRef = ref(db, "gradePortal/support/" + participant.code);
         const newMessage = push(messagesRef);
 
         await set(newMessage, {
-          from: "Kauany Host",
+          from: currentUser.name,
           senderRole: "host",
           text: message,
-          date: new Date().toLocaleString(),
+          date: new Date().toLocaleString(localeMap[currentLang] || "pt-BR"),
           timestamp: Date.now()
         });
 
         reply.value = "";
       } catch (error) {
         console.error(error);
-        alert("Reply could not be sent. Check Firebase permissions.");
+        alert(t("replyFailed"));
       }
     };
 
     section.append(title, box, reply, send);
     container.appendChild(section);
   });
-};
+}
 
 /* ==========================================
-   INITIAL DISPLAY
+   ANNOUNCEMENTS
 ========================================== */
 
-window.renderAnnouncements();
+function renderAnnouncements() {
+  const container = document.getElementById("announcementList");
+  const editor = document.getElementById("announcementEditor");
 
+  if (!container || !editor) return;
+
+  container.innerHTML = "";
+
+  editor.classList.toggle(
+    "hidden",
+    !currentUser || currentUser.role !== "host"
+  );
+
+  if (!announcements.length) {
+    container.textContent = t("noAnnouncements");
+    return;
+  }
+
+  announcements.forEach(a => {
+    const div = document.createElement("div");
+    div.className = "announcement";
+
+    const title = document.createElement("strong");
+    title.textContent = a.title || t("officialAnnouncement");
+
+    const content = document.createElement("div");
+    content.textContent = a.text || "";
+
+    const small = document.createElement("small");
+    small.textContent = t("production") + " • " + (a.date || "");
+
+    div.append(title, content, small);
+    container.appendChild(div);
+  });
+}
+
+async function publishAnnouncement() {
+  if (!currentUser || currentUser.role !== "host") {
+    alert(t("onlyHostAnn"));
+    return;
+  }
+
+  const input = document.getElementById("announcementInput");
+  const message = input.value.trim();
+
+  if (!message) {
+    alert(t("writeAnnFirst"));
+    return;
+  }
+
+  try {
+    const newAnnouncement = push(announcementsRef);
+
+    await set(newAnnouncement, {
+      title: t("officialAnnouncement"),
+      text: message,
+      date: new Date().toLocaleString(localeMap[currentLang] || "pt-BR"),
+      timestamp: Date.now(),
+      author: currentUser.name
+    });
+
+    input.value = "";
+    alert(t("annPublished"));
+  } catch (error) {
+    console.error(error);
+    alert(t("annFailed"));
+  }
+}
+
+/* ==========================================
+   SECURITY / TEXT DISPLAY HELPER
+========================================== */
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  })[char]);
+}
+
+/* ==========================================
+   LIVE FIREBASE LISTENERS
+========================================== */
+
+let accountsLoaded = false;
+let accountsResolve;
+const accountsReady = new Promise(resolve => { accountsResolve = resolve; });
+
+onValue(accountsRef, snapshot => {
+  remoteAccounts = snapshot.exists() ? snapshot.val() : {};
+
+  if (remoteAccounts.__accounts) delete remoteAccounts.__accounts;
+
+  rebuildParticipants();
+
+  if (!accountsLoaded) {
+    accountsLoaded = true;
+    accountsResolve();
+  }
+
+  refreshCurrentUser();
+  refreshCurrentView();
+}, error => {
+  console.error("Accounts error:", error);
+  if (!accountsLoaded) {
+    accountsLoaded = true;
+    accountsResolve();
+  }
+});
+
+onValue(announcementsRef, snapshot => {
+  announcements = [];
+
+  if (snapshot.exists()) {
+    snapshot.forEach(child => {
+      announcements.push({
+        id: child.key,
+        ...child.val()
+      });
+    });
+  }
+
+  announcements.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+  renderAnnouncements();
+}, error => {
+  console.error("Announcements error:", error);
+});
+
+onValue(supportRef, snapshot => {
+  const raw = snapshot.exists() ? snapshot.val() : {};
+
+  supportData = {};
+
+  Object.keys(raw).forEach(key => {
+    if (key === "__accounts") return; /* reserved for accounts */
+    supportData[key] = raw[key];
+  });
+
+  renderMySupport();
+  renderAllSupport();
+}, error => {
+  console.error("Support error:", error);
+});
+
+function refreshCurrentView() {
+  if (!currentUser) return;
+
+  const visible = pageIds.find(id => {
+    const el = document.getElementById(id);
+    return el && !el.classList.contains("hidden");
+  });
+
+  if (!visible) return;
+
+  if (visible === "gradesPage") renderGrades();
+  if (visible === "rankingPage") renderRanking();
+  if (visible === "allGradesPage") renderAllGrades();
+  if (visible === "allSupportPage") renderAllSupport();
+}
+
+/* ==========================================
+   EXPOSE FUNCTIONS TO INLINE HANDLERS
+========================================== */
+
+Object.assign(window, {
+  login,
+  logout,
+  showPage,
+  goHome,
+  sendSupport,
+  publishAnnouncement,
+  createProfile,
+  setLanguage
+});
+
+/* Apply the saved/default language on load */
+applyTranslations();
 </script>
-
 </body>
 </html>
