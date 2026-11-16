@@ -958,9 +958,9 @@ window.login = function() {
 
   if (!dashboard.classList.contains("hidden")) {
     activeCode = code;
-    renderMySupport();
-    renderAllSupport();
-    renderAnnouncements();
+    window.renderMySupport();
+    window.renderAllSupport();
+    window.renderAnnouncements();
   }
 };
 
@@ -991,7 +991,7 @@ onValue(announcementsRef, snapshot => {
     (b.timestamp || 0) - (a.timestamp || 0)
   );
 
-  renderAnnouncements();
+  window.renderAnnouncements();
 }, error => {
   console.error("Announcements error:", error);
 });
@@ -1069,8 +1069,8 @@ window.publishAnnouncement = async function() {
 onValue(supportRef, snapshot => {
   supportData = snapshot.exists() ? snapshot.val() : {};
 
-  renderMySupport();
-  renderAllSupport();
+  window.renderMySupport();
+  window.renderAllSupport();
 }, error => {
   console.error("Support error:", error);
 });
@@ -1213,7 +1213,7 @@ window.renderAllSupport = function() {
    INITIAL DISPLAY
 ========================================== */
 
-renderAnnouncements();
+window.renderAnnouncements();
 
 </script>
 
