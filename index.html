@@ -1,4 +1,4 @@
-[https://ibb.co/WNgMBvYG](https://ibb.co/WNgMBvYG) is an ImgBB page link rather than a direct image file link—if it doesn't render in CSS url(), open the page, copy the Direct link ([https://i.ibb.co/](https://i.ibb.co/)...) or save the image locally and point url(...) to that file.
+I've recreated that exact story background directly in code using a fixed <canvas> backdrop—complete with the dark wine base, diagonal stripes, wavy/organic center bands, pink and beige/straw paint splatters, straw tufts, thin pink outline lines, and the bottom black gradient—so it works reliably with zero external image link issues.
 Here is the complete updated HTML script:
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -10,9 +10,9 @@ Here is the complete updated HTML script:
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;600;700;800&display=swap');
 
 :root {
-  --bg-deep: #240712;
-  --bg-wine: #3d0d20;
-  --panel-bg: rgba(34, 6, 17, 0.86);
+  --bg-deep: #290714;
+  --bg-wine: #450c22;
+  --panel-bg: rgba(34, 6, 17, 0.84);
   --panel-surface: rgba(58, 12, 30, 0.72);
   --pink-neon: #ff4fa3;
   --pink-hot: #d82b7d;
@@ -34,15 +34,19 @@ body {
   font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
   color: var(--text-main);
   background-color: var(--bg-deep);
-  background-image:
-    linear-gradient(180deg, rgba(22, 4, 11, 0.42) 0%, rgba(22, 4, 11, 0.68) 100%),
-    url("https://ibb.co/WNgMBvYG");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
   position: relative;
   padding-bottom: 70px;
+  overflow-x: hidden;
+}
+
+/* ===== STORY BACKGROUND CANVAS ===== */
+#storyBgCanvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
 }
 
 /* ===== FIXED BOTTOM BLACK GRADIENT (like the story) ===== */
@@ -52,12 +56,12 @@ body::after {
   left: 0;
   right: 0;
   bottom: 0;
-  height: 190px;
+  height: 195px;
   background: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0) 0%,
     rgba(10, 2, 5, 0.65) 48%,
-    rgba(0, 0, 0, 0.97) 100%
+    rgba(0, 0, 0, 0.98) 100%
   );
   pointer-events: none;
   z-index: 40;
@@ -70,12 +74,13 @@ button { cursor: pointer; border: 0; }
 /* ===== HEADER (IX CONFINAMENTO TOTAL) ===== */
 header {
   position: relative;
+  z-index: 10;
   text-align: center;
   padding: 34px 16px 26px;
-  background: linear-gradient(180deg, rgba(18, 3, 9, 0.9) 0%, rgba(45, 9, 24, 0.55) 100%);
+  background: linear-gradient(180deg, rgba(18, 3, 9, 0.88) 0%, rgba(45, 9, 24, 0.45) 100%);
   border-bottom: 2px solid var(--border-pink);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(4px);
 }
 
 .brand-emblem {
@@ -131,7 +136,7 @@ header p {
   border-radius: 8px;
   padding: 5px 10px;
   box-shadow: 0 0 12px rgba(255, 79, 163, 0.25);
-  z-index: 10;
+  z-index: 15;
 }
 
 .lang-label {
@@ -162,7 +167,7 @@ header p {
   width: min(920px, 93%);
   margin: 26px auto;
   position: relative;
-  z-index: 5;
+  z-index: 10;
 }
 
 /* ===== PANELS (Dark magenta glass + neon frame) ===== */
@@ -175,7 +180,7 @@ header p {
   box-shadow:
     0 12px 32px rgba(0, 0, 0, 0.65),
     inset 0 0 24px rgba(216, 43, 125, 0.12);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(8px);
   margin-bottom: 18px;
 }
 
@@ -553,6 +558,8 @@ footer {
 <script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
 </head>
 <body>
+<canvas id="storyBgCanvas" aria-hidden="true"></canvas>
+
 <header>
   <div class="lang-switch">
     <span class="lang-label" data-i18n="language">Idioma</span>
@@ -738,6 +745,220 @@ footer {
   <span data-i18n="footer1">IX CONFINAMENTO TOTAL • PORTAL DE PRODUÇÃO</span><br>
   <span data-i18n="footer2">🌾 A plataforma oficial de resultados da fazenda</span>
 </footer>
+
+<script>
+/* ==========================================
+   PROCEDURAL STORY BACKGROUND (STAINS + LINES)
+========================================== */
+(function renderStoryBackground() {
+  const canvas = document.getElementById("storyBgCanvas");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+
+  function mulberry32(seed) {
+    let a = seed >>> 0;
+    return function () {
+      a |= 0;
+      a = (a + 0x6d2b79f5) | 0;
+      let t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  function drawSplatterCluster(cx, cy, radius, color, rand, count, alphaBase) {
+    ctx.save();
+    for (let i = 0; i < count; i++) {
+      const angle = rand() * Math.PI * 2;
+      const dist = Math.pow(rand(), 0.72) * radius;
+      const x = cx + Math.cos(angle) * dist;
+      const y = cy + Math.sin(angle) * dist * 0.85;
+      const r = Math.max(2, radius * (0.06 + rand() * 0.24) * (1 - dist / (radius * 1.35)));
+
+      ctx.globalAlpha = Math.max(0.08, Math.min(0.95, alphaBase * (0.45 + rand() * 0.7)));
+      ctx.fillStyle = color;
+      ctx.beginPath();
+
+      const lobes = 7 + Math.floor(rand() * 6);
+      for (let k = 0; k <= lobes; k++) {
+        const a = (k / lobes) * Math.PI * 2;
+        const wobble = 0.65 + rand() * 0.65;
+        const px = x + Math.cos(a) * r * wobble;
+        const py = y + Math.sin(a) * r * wobble;
+        if (k === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    // Fine paint droplets around the stain
+    for (let d = 0; d < Math.floor(count * 0.7); d++) {
+      const angle = rand() * Math.PI * 2;
+      const dist = radius * (0.65 + rand() * 0.95);
+      const dx = cx + Math.cos(angle) * dist;
+      const dy = cy + Math.sin(angle) * dist;
+      const dr = 1.2 + rand() * 4.5;
+      ctx.globalAlpha = alphaBase * (0.35 + rand() * 0.6);
+      ctx.beginPath();
+      ctx.arc(dx, dy, dr, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  function drawStrawTuft(x, y, angleRad, scale, rand) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(angleRad);
+    ctx.scale(scale, scale);
+
+    const strands = 48;
+    for (let i = 0; i < strands; i++) {
+      const t = i / strands;
+      const yOffset = (t - 0.5) * 44;
+      const length = 75 + rand() * 65;
+      const curve = (rand() - 0.5) * 18;
+      const tone = rand();
+
+      ctx.strokeStyle = tone < 0.35
+        ? "#8b5c34"
+        : tone < 0.75
+          ? "#c89660"
+          : "#e3bc8c";
+      ctx.globalAlpha = 0.65 + rand() * 0.3;
+      ctx.lineWidth = 1.4 + rand() * 2.2;
+
+      ctx.beginPath();
+      ctx.moveTo(-25, yOffset * 0.45);
+      ctx.quadraticCurveTo(length * 0.45, yOffset + curve, length, yOffset * 1.45 + curve * 0.6);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function draw() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+
+    canvas.width = Math.floor(w * dpr);
+    canvas.height = Math.floor(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const rand = mulberry32(902616);
+
+    // 1. Deep burgundy/wine base
+    const baseGrad = ctx.createLinearGradient(0, 0, w, h);
+    baseGrad.addColorStop(0, "#4c0d26");
+    baseGrad.addColorStop(0.5, "#360719");
+    baseGrad.addColorStop(1, "#220410");
+    ctx.fillStyle = baseGrad;
+    ctx.fillRect(0, 0, w, h);
+
+    // 2. Diagonal subtle stripes
+    ctx.save();
+    ctx.strokeStyle = "rgba(120, 22, 62, 0.34)";
+    ctx.lineWidth = Math.max(8, w * 0.016);
+    const diagSpan = w + h;
+    for (let offset = -h; offset < diagSpan; offset += Math.max(24, w * 0.045)) {
+      ctx.beginPath();
+      ctx.moveTo(offset, 0);
+      ctx.lineTo(offset + h * 0.72, h);
+      ctx.stroke();
+    }
+    ctx.restore();
+
+    // 3. Wavy / organic ribbon lines in the middle background
+    ctx.save();
+    ctx.strokeStyle = "rgba(135, 25, 70, 0.32)";
+    ctx.lineCap = "round";
+    for (let s = 0; s < 14; s++) {
+      ctx.lineWidth = 6 + (s % 3) * 5;
+      ctx.beginPath();
+      const startX = w * (0.12 + (s % 5) * 0.16);
+      const startY = h * (0.18 + s * 0.045);
+      let px = startX;
+      let py = startY;
+      ctx.moveTo(px, py);
+      for (let step = 0; step < 7; step++) {
+        px += (rand() - 0.35) * 90;
+        py += 26 + rand() * 34;
+        ctx.quadraticCurveTo(px + (rand() - 0.5) * 45, py - 14, px, py);
+      }
+      ctx.stroke();
+    }
+    ctx.restore();
+
+    // 4. Pink & magenta paint stains along top, bottom, and sides
+    const pinkStains = [
+      { x: w * 0.12, y: h * 0.05, r: 120, c: "#b82568", n: 42, a: 0.72 },
+      { x: w * 0.52, y: h * 0.03, r: 145, c: "#9c1b56", n: 46, a: 0.65 },
+      { x: w * 0.86, y: h * 0.16, r: 115, c: "#e03e8c", n: 38, a: 0.78 },
+      { x: w * 0.06, y: h * 0.54, r: 90,  c: "#a81f5e", n: 28, a: 0.62 },
+      { x: w * 0.92, y: h * 0.48, r: 95,  c: "#b82568", n: 30, a: 0.65 },
+      { x: w * 0.16, y: h * 0.84, r: 135, c: "#e84593", n: 44, a: 0.82 },
+      { x: w * 0.54, y: h * 0.92, r: 155, c: "#d4337f", n: 50, a: 0.78 },
+      { x: w * 0.88, y: h * 0.86, r: 115, c: "#b82568", n: 36, a: 0.72 }
+    ];
+    pinkStains.forEach(st => drawSplatterCluster(st.x, st.y, st.r, st.c, rand, st.n, st.a));
+
+    // 5. Beige / straw / gold stains matching the hay/country accents
+    const beigeStains = [
+      { x: w * 0.05, y: h * 0.07, r: 85, c: "#c99b63", n: 28, a: 0.68 },
+      { x: w * 0.12, y: h * 0.34, r: 65, c: "#b5854d", n: 22, a: 0.62 },
+      { x: w * 0.90, y: h * 0.56, r: 55, c: "#c99b63", n: 18, a: 0.65 },
+      { x: w * 0.78, y: h * 0.76, r: 42, c: "#d6ab74", n: 14, a: 0.65 }
+    ];
+    beigeStains.forEach(st => drawSplatterCluster(st.x, st.y, st.r, st.c, rand, st.n, st.a));
+
+    // 6. Straw / hay tufts on left and right like the story photo
+    const scale = Math.max(0.7, Math.min(1.25, w / 540));
+    drawStrawTuft(w * 0.06, h * 0.24, 0.22, scale, rand);
+    drawStrawTuft(w * 0.86, h * 0.72, -0.18, scale, rand);
+
+    // 7. Thin angular & curved pink/white outline lines like the story photo
+    ctx.save();
+    ctx.strokeStyle = "rgba(255, 165, 212, 0.55)";
+    ctx.lineWidth = 1.6;
+
+    // Top-left curved & angular line
+    ctx.beginPath();
+    ctx.moveTo(w * 0.22, 0);
+    ctx.quadraticCurveTo(w * 0.16, h * 0.18, w * 0.33, h * 0.24);
+    ctx.lineTo(w * 0.27, h * 0.29);
+    ctx.stroke();
+
+    // Right-side angular zig-zag line
+    ctx.beginPath();
+    ctx.moveTo(w, h * 0.16);
+    ctx.lineTo(w * 0.89, h * 0.25);
+    ctx.lineTo(w * 0.95, h * 0.34);
+    ctx.lineTo(w * 0.88, h * 0.44);
+    ctx.lineTo(w * 0.96, h * 0.55);
+    ctx.stroke();
+
+    // Left-side angular zig-zag line
+    ctx.beginPath();
+    ctx.moveTo(0, h * 0.42);
+    ctx.lineTo(w * 0.07, h * 0.52);
+    ctx.lineTo(0, h * 0.62);
+    ctx.lineTo(w * 0.06, h * 0.72);
+    ctx.stroke();
+
+    // Bottom curved line
+    ctx.beginPath();
+    ctx.moveTo(w * 0.56, h * 0.74);
+    ctx.quadraticCurveTo(w * 0.62, h * 0.91, w * 0.86, h);
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  draw();
+  window.addEventListener("resize", draw);
+})();
+</script>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
