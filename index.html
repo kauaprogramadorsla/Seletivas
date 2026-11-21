@@ -33,16 +33,11 @@ body {
   color: var(--text-main);
   background-color: var(--bg-deep);
   background-image:
-    radial-gradient(circle at 20% 15%, rgba(216, 43, 125, 0.28) 0%, transparent 45%),
-    radial-gradient(circle at 82% 72%, rgba(255, 79, 163, 0.22) 0%, transparent 50%),
-    radial-gradient(circle at 75% 22%, rgba(215, 168, 110, 0.14) 0%, transparent 32%),
-    repeating-linear-gradient(
-      135deg,
-      rgba(61, 13, 32, 0.92) 0px,
-      rgba(61, 13, 32, 0.92) 18px,
-      rgba(42, 8, 22, 0.96) 18px,
-      rgba(42, 8, 22, 0.96) 36px
-    );
+    linear-gradient(180deg, rgba(22, 4, 11, 0.42) 0%, rgba(22, 4, 11, 0.68) 100%),
+    url("https://kommodo.ai/i/r7PJZDw879HlRDSGr6Ke");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   background-attachment: fixed;
   position: relative;
   padding-bottom: 70px;
@@ -70,7 +65,7 @@ button, input, textarea { font: inherit; }
 button { cursor: pointer; border: 0; }
 .hidden { display: none !important; }
 
-/* ===== HEADER (IX CONFINAMENTO TOTAL arch style) ===== */
+/* ===== HEADER (IX CONFINAMENTO TOTAL) ===== */
 header {
   position: relative;
   text-align: center;
@@ -86,18 +81,7 @@ header {
   flex-direction: column;
   align-items: center;
   position: relative;
-  padding: 12px 34px 8px;
-}
-
-.brand-arch {
-  width: 230px;
-  height: 34px;
-  border: 2.5px solid var(--pink-pale);
-  border-bottom: none;
-  border-radius: 130px 130px 0 0;
-  margin-bottom: -18px;
-  box-shadow: 0 0 14px rgba(255, 79, 163, 0.45);
-  opacity: 0.92;
+  padding: 6px 34px 8px;
 }
 
 .brand-roman {
@@ -577,7 +561,6 @@ footer {
     </select>
   </div>
   <div class="brand-emblem">
-    <div class="brand-arch"></div>
     <span class="brand-roman">IX</span>
     <h1>CONFINAMENTO TOTAL</h1>
   </div>
@@ -847,7 +830,7 @@ const translations = {
     allSupportTitle: "💬 Central de Suporte do Apresentador",
     allSupportSubtitle: "Todas as conversas dos participantes.",
     replyTo: "Responder a {name}...",
-    sendReply: "ENVIAR RESPOSTA",
+    sendReply: "ENVIAR RESPUESTA",
     replyFailed: "Não foi possível enviar a resposta. Verifique as permissões do Firebase.",
     annTitle: "📢 Avisos",
     annSubtitle: "Avisos oficiais da equipe de produção.",
@@ -1986,4 +1969,3 @@ applyTranslations();
 </script>
 </body>
 </html>
-
